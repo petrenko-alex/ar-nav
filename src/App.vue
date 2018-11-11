@@ -11,18 +11,18 @@
     </v-toolbar>
 
     <v-content>
-      <HelloWorld/>
+      <PlaceItem></PlaceItem>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import PlaceItem from './components/PlaceItem'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    PlaceItem
   },
   data () {
     return {
