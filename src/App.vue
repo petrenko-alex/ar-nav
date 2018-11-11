@@ -1,6 +1,10 @@
 <template>
   <v-app>
+    <v-navigation-drawer fixed app v-model="showSideMenu">
+      <v-list dense></v-list>
+    </v-navigation-drawer>
     <v-toolbar app>
+      <v-toolbar-side-icon @click.stop="showSideMenu = !showSideMenu"></v-toolbar-side-icon>
       <v-toolbar-title class="headline text-uppercase">
         <span>{{ appName }}</span>
       </v-toolbar-title>
@@ -23,6 +27,7 @@ export default {
   data () {
     return {
       appName: 'ar-nav',
+      showSideMenu: false,
     }
   }
 }
