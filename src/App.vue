@@ -11,18 +11,18 @@
     </v-toolbar>
 
     <v-content>
-      <PlaceItem></PlaceItem>
+      <PlaceList></PlaceList>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import PlaceItem from './components/PlaceItem'
+import PlaceList from './components/PlaceList'
 
 export default {
   name: 'App',
   components: {
-    PlaceItem
+    PlaceList
   },
   data () {
     return {
