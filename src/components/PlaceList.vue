@@ -9,7 +9,6 @@
 </template>
 
 <script>
-  import places from '../stubs/places.js';
   import PlaceItem from './PlaceItem';
 
   export default {
@@ -19,8 +18,20 @@
     },
     data() {
       return {
-        places
+        placesUrl: 'places/getallplaces.php',
+        places: []
       }
+    },
+    created() {
+      this.$http.get(this.$root.baseApiUrl + this.placesUrl).then(response => {
+        if (response.ok) {
+          this.places = response.body;
+        } else {
+          console.log('Error getting places. Status text: ' + response.statusText);
+        }
+      }, response => {
+        console.log('Error getting places. Status text: ' + response.statusText);
+      })
     }
   }
 </script>
