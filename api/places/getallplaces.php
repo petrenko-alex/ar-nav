@@ -25,9 +25,11 @@ class GetAllPlaces
 			],
 		];
 
-		$jsonPlaces = json_encode($places);
+		$jsonPlaces = json_encode($places, JSON_UNESCAPED_UNICODE);
 
+		header('Access-Control-Allow-Origin: *');
 		echo $jsonPlaces;
 	}
 }
 
+GetAllPlaces::run();
