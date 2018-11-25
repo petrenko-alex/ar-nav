@@ -15,7 +15,7 @@ new Vue({
   Router,
   Resource,
   data: {
-    baseApiUrl: 'https://petrenko-story.ru/ar-nav/api/',
+    baseApiUrl: 'http://192.168.1.91:8090/api/',
   },
   render: h => h(App)
 }).$mount('#app');
