@@ -1,0 +1,14 @@
+{
+    "name": "petrenko/ar-nav-api",
+    "description": "Database api for ar-nav project",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Alexander Petrenko",
+            "email": "gafk555@gmail.com"
+        }
+    ],
+    "require": {
+        "graphaware/neo4j-php-ogm": "@rc"
+    }
+}
