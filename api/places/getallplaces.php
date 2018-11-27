@@ -1,4 +1,8 @@
-<?php namespace Petrenko\ArNav\Ajax\Places;
+<?php
+use Petrenko\ArNav\Model\Place;
+
+//require_once($_SERVER['DOCUMENT_ROOT'] . '/api/bootstrap.php');
+require_once('../bootstrap.php');
 
 class GetAllPlaces
 {
@@ -32,4 +36,30 @@ class GetAllPlaces
 	}
 }
 
-GetAllPlaces::run();
+//GetAllPlaces::run();
+
+//$placeName = $argv[1];
+//$placeDesc = $argv[2];
+//$placeImagePath = $argv[3];
+//
+//$place = new Place();
+//$place->setTitle($placeName);
+//$place->setDescription($placeDescription);
+//$place->setImagePath($placeImagePath);
+//
+//try {
+//	$entityManager->persist($place);
+//	$entityManager->flush();
+//}
+//catch (Exception $e) {
+//	echo $e->getMessage();
+//}
+//
+//echo sprintf('Created Person with ID "%d"', $place->getId());
+
+$placesRepo = $entityManager->getRepository(Place::class);
+$places = $placesRepo->findAll();
+
+foreach ($places as $place) {
+	echo sprintf("- %s\n", $place->getTitle());
+}
