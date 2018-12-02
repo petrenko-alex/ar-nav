@@ -1,9 +1,9 @@
 <template>
     <v-card>
-        <v-img class="white--text" :src="place.image"/>
+        <v-img class="white--text" :src="place.imagePath"/>
         <v-card-title>
             <div>
-                <span class="grey--text">{{ place.name }}</span><br>
+                <span class="grey--text">{{ place.title }}</span><br>
                 <span>{{ place.description }}</span><br>
             </div>
         </v-card-title>
