@@ -1,7 +1,13 @@
 <template>
     <v-container grid-list-lg>
+        <div class="ma-5 text-xs-center headline" v-if="isEmpty">
+            К сожалению, доступных помещений пока нет :(
+        </div>
         <v-layout row wrap>
-            <v-flex xs12 sm6 md4 lg2 v-for="place in places" :key="place.id">
+            <v-flex xs12 sm6 md4 lg2
+                    v-for="place in places"
+                    :key="place.id"
+            >
                 <PlaceItem v-bind:place="place"></PlaceItem>
             </v-flex>
         </v-layout>
@@ -20,6 +26,11 @@
       return {
         placesUrl: 'places/getallplaces.php',
         places: []
+      }
+    },
+    computed: {
+      isEmpty() {
+        return this.places.length === 0;
       }
     },
     created() {
