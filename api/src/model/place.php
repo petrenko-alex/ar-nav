@@ -1,4 +1,5 @@
 <?php
+
 namespace Petrenko\ArNav\Model;
 
 use GraphAware\Neo4j\OGM\Annotations as OGM;
@@ -10,87 +11,95 @@ use GraphAware\Neo4j\OGM\Annotations as OGM;
  */
 class Place
 {
-	/**
-	 * @var int
-	 *
-	 * @OGM\GraphId()
-	 */
-	private $id;
+    /**
+     * @var int
+     *
+     * @OGM\GraphId()
+     */
+    private $id;
 
-	/**
-	 * @var string
-	 *
-	 * @OGM\Property(type="string")
-	 */
-	private $title;
+    /**
+     * @var string
+     *
+     * @OGM\Property(type="string")
+     */
+    private $title;
 
-	/**
-	 * @var string
-	 *
-	 * @OGM\Property(type="string")
-	 */
-	private $description;
+    /**
+     * @var string
+     *
+     * @OGM\Property(type="string")
+     */
+    private $description;
 
-	/**
-	 * @var string
-	 *
-	 * @OGM\Property(type="string")
-	 */
-	private $imagePath;
+    /**
+     * @var string
+     *
+     * @OGM\Property(type="string")
+     */
+    private $imagePath;
 
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTitle()
-	{
-		return $this->title;
-	}
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @param string $title
-	 */
-	public function setTitle($title)
-	{
-		$this->title = $title;
-	}
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return $this->description;
-	}
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
-	/**
-	 * @param string $description
-	 */
-	public function setDescription($description)
-	{
-		$this->description = $description;
-	}
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getImagePath()
-	{
-		return $this->imagePath;
-	}
+    /**
+     * @return string
+     */
+    public function getImagePath()
+    {
+        return $this->imagePath;
+    }
 
-	/**
-	 * @param string $imagePath
-	 */
-	public function setImagePath($imagePath)
-	{
-		$this->imagePath = $imagePath;
-	}
+    /**
+     * @param string $imagePath
+     */
+    public function setImagePath($imagePath)
+    {
+        $this->imagePath = $imagePath;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
 }
