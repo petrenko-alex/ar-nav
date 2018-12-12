@@ -36,7 +36,7 @@
     "vuetify-loader": "^1.0.5"
   },
   "gitHooks": {
-    "pre-commit": "lint-staged"
+
   },
   "lint-staged": {
     "*.js": [
