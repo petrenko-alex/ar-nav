@@ -12,6 +12,7 @@ export default new Router({
       component: Home,
       meta: {
         icon: 'home',
+        title: 'Домой',
       }
     },
   ]
