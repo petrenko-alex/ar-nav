@@ -19,6 +19,10 @@
         <v-toolbar-title class="headline text-uppercase">
           <span>{{ appName }}</span>
         </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon :href="appRepoUrl" target="_blank">
+          <v-icon>$vuetify.icons.github</v-icon>
+        </v-btn>
       </v-toolbar>
 
       <router-view/>
@@ -33,6 +37,7 @@ export default {
     return {
       showSideMenu: false,
       appName: 'ar-nav',
+      appRepoUrl: '//github.com/gafk/ar-nav',
       routes: this.$router.options.routes,
     }
   }
