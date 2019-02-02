@@ -17,6 +17,10 @@ Vue.use(Vuetify, {
     'github' : 'fab fa-github'
   }
 });
+Vue.config.ignoredElements = [
+  'a-marker',
+  'a-marker-camera'
+];
 
 new Vue({
   router,
