@@ -12,6 +12,7 @@ export default new Router({
       name: 'home',
       component: Home,
       meta: {
+        showInMenu: true,
         icon: 'home',
         title: 'Домой',
       }
@@ -21,6 +22,7 @@ export default new Router({
       name: 'map_creator',
       component: MapCreator,
       meta: {
+        showInMenu: true,
         icon: 'fas fa-map-marked-alt',
         title: 'Генератор карт',
       }
