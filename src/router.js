@@ -32,6 +32,7 @@ export default new Router({
       path: '/ar-room/:id',
       name: 'ar_room',
       component: ArRoom,
+      props: true,
       meta: {
         showInMenu: false,
       }
