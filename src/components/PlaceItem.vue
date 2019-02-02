@@ -9,7 +9,9 @@
         </v-card-title>
         <v-card-actions>
             <v-layout row justify-center mb-1>
-                    <v-btn flat color="orange">Исследовать</v-btn>
+                <v-btn flat color="orange" :to="{name: 'ar_room', params: {id: place.id}}">
+                    Исследовать
+                </v-btn>
             </v-layout>
         </v-card-actions>
     </v-card>
@@ -21,5 +23,8 @@
     props: [
       'place',
     ],
+    beforeRouteUpdate(to, from, next) {
+
+    },
   }
 </script>
