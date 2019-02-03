@@ -26,7 +26,7 @@ new Vue({
   router,
   Resource,
   data: {
-    baseApiUrl: 'http://192.168.1.91:8090/api/',
+    baseApiUrl: 'http://192.168.1.91/api/',
   },
   render: h => h(App)
 }).$mount('#app');
