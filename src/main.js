@@ -26,7 +26,7 @@ new Vue({
   router,
   Resource,
   data: {
-    baseApiUrl: 'http://192.168.1.91/api/',
+    baseApiUrl: 'https://ar-nav.ru/api/',
   },
   render: h => h(App)
 }).$mount('#app');
