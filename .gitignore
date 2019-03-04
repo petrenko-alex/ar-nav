@@ -20,3 +20,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+# Temp files for development
+Apache-PHP-7-x64_vhost.conf
+public/aframe-ar.js
