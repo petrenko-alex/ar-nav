@@ -13,3 +13,13 @@
     props: ['id'],
   }
 </script>
+
+<style>
+    video {
+        z-index: 0 !important;
+    }
+
+    a-scene {
+        z-index: 1 !important;
+    }
+</style>
