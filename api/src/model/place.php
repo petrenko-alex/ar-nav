@@ -3,6 +3,7 @@
 namespace Petrenko\ArNav\Model;
 
 use GraphAware\Neo4j\OGM\Annotations as OGM;
+use GraphAware\Neo4j\OGM\Common\Collection;
 
 /**
  * @package Petrenko\Model
@@ -39,7 +40,26 @@ class Place
      */
     private $imagePath;
 
-    /**
+	/**
+	 * @var Marker[]|Collection
+	 *
+	 * @OGM\Relationship(type="IS_IN", direction="INCOMING", collection=true, mappedBy="place", targetEntity="Marker")
+	 */
+	private $markers;
+
+	public function __construct($title, $description, $imagePath, $markers = [])
+	{
+		$this->title = $title;
+		$this->description = $description;
+		$this->imagePath = $imagePath;
+
+		$this->markers = $markers;
+		if (!$this->markers) {
+			$this->markers = new Collection();
+		}
+	}
+
+	/**
      * @return int
      */
     public function getId()
@@ -94,6 +114,25 @@ class Place
     {
         $this->imagePath = $imagePath;
     }
+
+	/**
+	 * @return Collection|Marker[]
+	 */
+	public function getMarkers()
+	{
+		return $this->markers;
+	}
+
+	/**
+	 * @param Collection|Marker[] $markers
+	 * @return Place
+	 */
+	public function setMarkers($markers)
+	{
+		$this->markers = $markers;
+
+		return $this;
+	}
 
     /**
      * @return array
