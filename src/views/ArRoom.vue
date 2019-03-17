@@ -2,7 +2,7 @@
     <v-content>
         <qrcode-stream :track="false" @decode="onDecode" @init="onInit"/>
         <a-scene embedded artoolkit="sourceType: webcam;">
-            <a-box position='0 0.5 -1' material='opacity: 0.5;'></a-box>
+            <a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
             <a-marker-camera preset='hiro'></a-marker-camera>
         </a-scene>
     </v-content>
@@ -32,15 +32,15 @@
         {params: {placeId: this.roomId, XDEBUG_SESSION_START:'PHPSTORM'}}
       )
         .then(
-          response => {
-            if (response.ok) {
-              this.markers = response.body;
+          result => {
+            if (result.ok) {
+              this.markers = result.body;
             } else {
-              console.log('Error getting markers for place. Status text: ' + response.statusText);
+              console.log('Error getting markers for place. Status text: ' + result.statusText);
             }
           },
-          response => {
-            console.log('Error getting markers for place. Status text: ' + response.statusText);
+          error => {
+            console.log('Error getting markers for place. Status text: ' + error.statusText);
           })
     },
     methods: {
@@ -81,5 +81,13 @@
 
     a-scene {
         z-index: 1 !important;
+    }
+
+    .qrcode-stream {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 1px;
+        height: 1px;
     }
 </style>
