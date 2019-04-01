@@ -2,14 +2,36 @@
     <v-content>
         <qrcode-stream :track="false" @decode="onDecode" @init="onInit"/>
         <a-scene embedded artoolkit="sourceType: webcam;">
-            <a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
-            <a-marker-camera preset='hiro'></a-marker-camera>
+            <!--<a-assets>-->
+                <!--<img id="boxTexture" src="https://i.imgur.com/mYmmbrp.jpg">-->
+                <!--<img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">-->
+            <!--</a-assets>-->
+
+            <!--<a-box src="#boxTexture" position="0 -0.5 0" rotation="0 45 45" material='opacity: 1;' scale="0.5 0.5 0.5">-->
+                <!--<a-animation attribute="position"-->
+                             <!--to="0 -0.5 0.5"-->
+                             <!--direction="alternate"-->
+                             <!--dur="1000"-->
+                             <!--repeat="indefinite"-->
+                <!--&gt;</a-animation>-->
+            <!--</a-box>-->
+            <!--<a-text :value="currentText"-->
+                    <!--color="red"-->
+                    <!--position="-0.9 0.2 -3"-->
+                    <!--scale="1.5 1.5 1.5"-->
+            <!--&gt;</a-text>-->
+            <a-entity console-log="message: TEST;"></a-entity>
+
+
+            <a-marker-camera preset='hiro'>
+            </a-marker-camera>
         </a-scene>
     </v-content>
 </template>
 
 <script>
-  import {QrcodeStream, QrcodeDropZone, QrcodeCapture} from 'vue-qrcode-reader'
+  import {QrcodeStream, QrcodeDropZone, QrcodeCapture} from 'vue-qrcode-reader';
+  import ArameComponents from '../components/aframe/components';
 
   export default {
     name: "ArRoom",
@@ -22,9 +44,20 @@
         markersUrl: 'markers/getmarkersforplace.php',
         roomId: 0,
         markers: {},
+        currentText: 'Hello!',
       }
     },
     created() {
+      // AFRAME.registerComponent('my-test-component', {
+      //   tick: function () {
+      //     console.log(this);
+      //     var el = this.el;
+      //     el.setAttribute("value", "other text");
+      //   }
+      // });
+
+
+
       this.roomId = this.$route.params['id'];
 
       this.$http.get(
@@ -47,6 +80,7 @@
       onDecode(result) {
         const markerId = +result;
         if(this.markers.hasOwnProperty(markerId)) {
+          this.currentText = this.markers[markerId].info;
           console.log(this.markers[markerId].info);
         }
       },
