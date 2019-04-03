@@ -848,7 +848,7 @@ if (ENVIRONMENT_IS_NODE) {
       console.log(x)
     };
     if (!Module["printErr"]) Module["printErr"] = function printErr(x) {
-      console.log(x)
+      //console.log(x)
     }
   } else {
     var TRY_USE_DUMP = false;
@@ -58104,7 +58104,7 @@ ARjs.MarkerControls = THREEx.ArMarkerControls = function (context, object3d, par
       var currentValue = _this.parameters[key]
       
       if (currentValue === undefined) {
-        console.warn("THREEx.ArMarkerControls: '" + key + "' is not a property of this material.")
+        //console.warn("THREEx.ArMarkerControls: '" + key + "' is not a property of this material.")
         continue
       }
       
@@ -59259,6 +59259,7 @@ ARjs.Source.prototype._initSourceWebcam = function (onReady, onError) {
   domElement.setAttribute('autoplay', '');
   domElement.setAttribute('muted', '');
   domElement.setAttribute('playsinline', '');
+  domElement.setAttribute('id', 'ar-js-video');
   domElement.style.width = this.parameters.displayWidth + 'px'
   domElement.style.height = this.parameters.displayHeight + 'px'
   
@@ -59853,7 +59854,7 @@ ARjs.Anchor = function (arSession, markerParameters) {
   this.parameters = markerParameters
   
   // log to debug
-  console.log('ARjs.Anchor -', 'changeMatrixMode:', this.parameters.changeMatrixMode, '/ markersAreaEnabled:', markerParameters.markersAreaEnabled)
+  //console.log('ARjs.Anchor -', 'changeMatrixMode:', this.parameters.changeMatrixMode, '/ markersAreaEnabled:', markerParameters.markersAreaEnabled)
   
   var markerRoot = new THREE.Group
   scene.add(markerRoot)
@@ -60399,7 +60400,7 @@ ARjs.Session = function (parameters) {
   
   
   // log the version
-  console.log('AR.js', ARjs.Context.REVISION, '- trackingBackend:', parameters.contextParameters.trackingBackend)
+  //console.log('AR.js', ARjs.Context.REVISION, '- trackingBackend:', parameters.contextParameters.trackingBackend)
   
   //////////////////////////////////////////////////////////////////////////////
   //		init arSource
