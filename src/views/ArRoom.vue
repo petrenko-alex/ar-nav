@@ -1,30 +1,13 @@
 <template>
     <v-content>
-        <qrcode-stream :track="false" @decode="onDecode" @init="onInit"/>
+
         <a-scene embedded artoolkit="sourceType: webcam;">
-            <!--<a-assets>-->
-                <!--<img id="boxTexture" src="https://i.imgur.com/mYmmbrp.jpg">-->
-                <!--<img id="groundTexture" src="https://cdn.aframe.io/a-painter/images/floor.jpg">-->
-            <!--</a-assets>-->
+            <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="0.8 0 -0.5"></a-text>
 
-            <!--<a-box src="#boxTexture" position="0 -0.5 0" rotation="0 45 45" material='opacity: 1;' scale="0.5 0.5 0.5">-->
-                <!--<a-animation attribute="position"-->
-                             <!--to="0 -0.5 0.5"-->
-                             <!--direction="alternate"-->
-                             <!--dur="1000"-->
-                             <!--repeat="indefinite"-->
-                <!--&gt;</a-animation>-->
-            <!--</a-box>-->
-            <!--<a-text :value="currentText"-->
-                    <!--color="red"-->
-                    <!--position="-0.9 0.2 -3"-->
-                    <!--scale="1.5 1.5 1.5"-->
-            <!--&gt;</a-text>-->
-            <a-entity console-log="message: TEST;"></a-entity>
-
-
-            <a-marker-camera preset='hiro'>
-            </a-marker-camera>
+            <a-marker-camera preset='hiro'></a-marker-camera>
+            <div style="visibility: hidden">
+                <qrcode-stream :track="true" @decode="onDecode" @init="onInit"/>
+            </div>
         </a-scene>
     </v-content>
 </template>
@@ -44,20 +27,10 @@
         markersUrl: 'markers/getmarkersforplace.php',
         roomId: 0,
         markers: {},
-        currentText: 'Hello!',
+        currentText: 'Hello, Alex!',
       }
     },
     created() {
-      // AFRAME.registerComponent('my-test-component', {
-      //   tick: function () {
-      //     console.log(this);
-      //     var el = this.el;
-      //     el.setAttribute("value", "other text");
-      //   }
-      // });
-
-
-
       this.roomId = this.$route.params['id'];
 
       this.$http.get(
@@ -78,10 +51,13 @@
     },
     methods: {
       onDecode(result) {
+        // TODO: Remove 2 lines below
+        this.currentText = result;
+        console.log(result);
+
         const markerId = +result;
         if(this.markers.hasOwnProperty(markerId)) {
           this.currentText = this.markers[markerId].info;
-          console.log(this.markers[markerId].info);
         }
       },
 
@@ -109,19 +85,11 @@
 </script>
 
 <style>
-    video {
+    #ar-js-video {
         z-index: 0 !important;
     }
 
     a-scene {
         z-index: 1 !important;
-    }
-
-    .qrcode-stream {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 1px;
-        height: 1px;
     }
 </style>
