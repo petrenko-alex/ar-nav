@@ -1,7 +1,7 @@
 <template>
     <v-content>
-
         <a-scene embedded artoolkit="sourceType: webcam;">
+            <a-gltf-model src="/gltf/arrow/scene.gltf" position="1 1 0.5" rotation="0 90 90"></a-gltf-model>
             <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="0.8 0 -0.5"></a-text>
 
             <a-marker-camera preset='hiro'></a-marker-camera>
