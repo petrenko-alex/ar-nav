@@ -2,6 +2,7 @@
 
 namespace Petrenko\ArNav\Model;
 
+use GraphAware\Bolt\Result\Type\Path;
 use GraphAware\Neo4j\OGM\Annotations as OGM;
 
 /**
@@ -18,29 +19,46 @@ class Marker
 	 */
 	private $id;
 
-	/**
-	 * @var string
-	 *
-	 * @OGM\Property(type="string")
-	 */
-	private $info;
+    /**
+     * @var string
+     *
+     * @OGM\Property(type="string")
+     */
+	private $title;
 
 	/**
-	 * @var Place
+	 * @var PlaceObject
 	 *
-	 * @OGM\Relationship(type="IS_IN", direction="OUTGOING", mappedBy="markers", targetEntity="Place")
+	 * @OGM\Relationship(
+     *     type="ASSIGNED_TO",
+     *     direction="BOTH",
+     *     mappedBy="markers",
+     *     targetEntity="PlaceObject"
+     * )
 	 */
-	private $place;
+	private $placeObject;
 
-	/**
-	 * Marker constructor.
-	 * @param string $info
-	 * @param Place $place
-	 */
-	public function __construct($info, Place $place = null)
+    /**
+     * @var PathUnit
+     *
+     * @OGM\Relationship(
+     *     relationshipEntity="PathUnit",
+     *     type="CONNECTED_WITH",
+     *     direction="OUTGOING",
+     *     mappedBy="endMarker"
+     * )
+     */
+	private $next;
+
+    /**
+     * Marker constructor.
+     * @param string $title
+     * @param PlaceObject $placeObject
+     */
+	public function __construct(string $title, PlaceObject $placeObject = null)
 	{
-		$this->info = $info;
-		$this->place = $place;
+	    $this->title = $title;
+		$this->placeObject = $placeObject;
 	}
 
 	/**
@@ -51,25 +69,48 @@ class Marker
 		return $this->id;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getInfo()
-	{
-		return $this->info;
-	}
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @param string $info
-	 *
-	 * @return Marker
-	 */
-	public function setInfo($info)
-	{
-		$this->info = $info;
+    /**
+     * @param string $title
+     * @return Marker
+     */
+    public function setTitle(string $title): Marker
+    {
+        $this->title = $title;
 
-		return $this;
-	}
+        return $this;
+    }
+
+    /**
+     * @return Marker
+     */
+    public function getNext(): Marker
+    {
+        return $this->next;
+    }
+
+    /**
+     * @param Marker $next
+     * @param string $directions
+     * @return Marker
+     */
+    public function setNext(Marker $next, string $directions): Marker
+    {
+        $pathUnit1 = new PathUnit($this, $next, $directions);
+        $this->next = $pathUnit1;
+
+//        $pathUnit2 = new PathUnit($next, $this, $directions);
+//        $next->next = $pathUnit2;
+
+        return $this;
+    }
 
 	/**
 	 * @return array

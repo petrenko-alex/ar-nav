@@ -41,21 +41,27 @@ class Place
     private $imagePath;
 
 	/**
-	 * @var Marker[]|Collection
+	 * @var PlaceObject[]|Collection
 	 *
-	 * @OGM\Relationship(type="IS_IN", direction="INCOMING", collection=true, mappedBy="place", targetEntity="Marker")
+	 * @OGM\Relationship(
+     *     type="IS_IN",
+     *     direction="INCOMING",
+     *     collection=true,
+     *     mappedBy="place",
+     *     targetEntity="PlaceObject"
+     * )
 	 */
-	private $markers;
+	private $placeObjects;
 
-	public function __construct($title, $description, $imagePath, $markers = [])
+	public function __construct($title, $description, $imagePath, $placeObjects = [])
 	{
 		$this->title = $title;
 		$this->description = $description;
 		$this->imagePath = $imagePath;
 
-		$this->markers = $markers;
-		if (!$this->markers) {
-			$this->markers = new Collection();
+		$this->placeObjects = $placeObjects;
+		if (!$this->placeObjects) {
+			$this->placeObjects = new Collection();
 		}
 	}
 
@@ -116,20 +122,20 @@ class Place
     }
 
 	/**
-	 * @return Collection|Marker[]
+	 * @return Collection|PlaceObject[]
 	 */
-	public function getMarkers()
+	public function getPlaceObjects()
 	{
-		return $this->markers;
+		return $this->placeObjects;
 	}
 
 	/**
-	 * @param Collection|Marker[] $markers
+	 * @param Collection|PlaceObject[] $placeObjects
 	 * @return Place
 	 */
-	public function setMarkers($markers)
+	public function setPlaceObjects($placeObjects)
 	{
-		$this->markers = $markers;
+		$this->placeObjects = $placeObjects;
 
 		return $this;
 	}
