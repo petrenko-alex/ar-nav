@@ -81,6 +81,14 @@ class PlaceObject
     }
 
     /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
      * @return Collection|Marker[]
      */
     public function getMarkers()
@@ -116,5 +124,18 @@ class PlaceObject
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'type' => $this->type,
+        ];
     }
 }
