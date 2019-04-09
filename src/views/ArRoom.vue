@@ -24,9 +24,9 @@
     },
     data() {
       return {
-        markersUrl: 'markers/getmarkersforplace.php',
+        markersUrl: 'getplaceobjects.php',
         roomId: 0,
-        markers: {},
+        goals: {},
         currentText: 'Hello, Alex!',
       }
     },
@@ -40,13 +40,13 @@
         .then(
           result => {
             if (result.ok) {
-              this.markers = result.body;
+              this.goals = result.body;
             } else {
-              console.log('Error getting markers for place. Status text: ' + result.statusText);
+              console.log('Error getting goals for place. Status text: ' + result.statusText);
             }
           },
           error => {
-            console.log('Error getting markers for place. Status text: ' + error.statusText);
+            console.log('Error getting goals for place. Status text: ' + error.statusText);
           })
     },
     methods: {
@@ -56,8 +56,8 @@
         console.log(result);
 
         const markerId = +result;
-        if(this.markers.hasOwnProperty(markerId)) {
-          this.currentText = this.markers[markerId].info;
+        if(this.goals.hasOwnProperty(markerId)) {
+          this.currentText = this.goals[markerId].title;
         }
       },
 
