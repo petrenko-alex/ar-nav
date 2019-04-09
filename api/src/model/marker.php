@@ -31,7 +31,7 @@ class Marker
 	 *
 	 * @OGM\Relationship(
      *     type="ASSIGNED_TO",
-     *     direction="BOTH",
+     *     direction="OUTGOING",
      *     mappedBy="markers",
      *     targetEntity="PlaceObject"
      * )
@@ -44,11 +44,23 @@ class Marker
      * @OGM\Relationship(
      *     relationshipEntity="PathUnit",
      *     type="CONNECTED_WITH",
-     *     direction="OUTGOING",
+     *     direction="BOTH",
      *     mappedBy="endMarker"
      * )
      */
 	private $next;
+
+    /**
+     * @var PathUnit
+     *
+     * @OGM\Relationship(
+     *     relationshipEntity="PathUnit",
+     *     type="CONNECTED_WITH",
+     *     direction="BOTH",
+     *     mappedBy="startMarker"
+     * )
+     */
+    private $prev;
 
     /**
      * Marker constructor.
@@ -89,12 +101,21 @@ class Marker
     }
 
     /**
-     * @return Marker
+     * @return PathUnit
      */
-    public function getNext(): Marker
+    public function getNext(): PathUnit
     {
         return $this->next;
     }
+
+    /**
+     * @return PathUnit
+     */
+    public function getPrev(): PathUnit
+    {
+        return $this->prev;
+    }
+
 
     /**
      * @param Marker $next
@@ -103,11 +124,11 @@ class Marker
      */
     public function setNext(Marker $next, string $directions): Marker
     {
-        $pathUnit1 = new PathUnit($this, $next, $directions);
-        $this->next = $pathUnit1;
+        $pathUnitDirect = new PathUnit($this, $next, $directions);
+        $this->next = $pathUnitDirect;
 
-//        $pathUnit2 = new PathUnit($next, $this, $directions);
-//        $next->next = $pathUnit2;
+        $pathUnitReverse = new PathUnit($next, $this, 'reverse ' . $directions);
+        $next->prev = $pathUnitReverse;
 
         return $this;
     }
