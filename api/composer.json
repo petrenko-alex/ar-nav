@@ -9,7 +9,8 @@
         }
     ],
     "require": {
-        "graphaware/neo4j-php-ogm": "@rc"
+        "graphaware/neo4j-php-ogm": "@rc",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {"Petrenko\\ArNav\\": "src/"}
