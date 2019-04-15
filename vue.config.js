@@ -1,6 +1,7 @@
 module.exports = {
   lintOnSave: false,
   devServer: {
-    https: true
+    https: true,
+    public: 'petrenko-story.ru',
   },
 };
