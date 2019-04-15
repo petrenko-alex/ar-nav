@@ -12,6 +12,9 @@
         "graphaware/neo4j-php-ogm": "@rc",
         "ext-json": "*"
     },
+    "config": {
+        "optimize-autoloader": true
+    },
     "autoload": {
         "psr-4": {"Petrenko\\ArNav\\": "src/"}
     }
