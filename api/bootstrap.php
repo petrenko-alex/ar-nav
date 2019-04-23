@@ -1,7 +1,11 @@
 <?php
 
 use GraphAware\Neo4j\OGM\EntityManager;
+use Dotenv\Dotenv;
 
 require_once('vendor/autoload.php');
 
-$entityManager = EntityManager::create('http://neo4j:123456@localhost:7474');
+$dotenv = Dotenv::create($_SERVER["DOCUMENT_ROOT"]);
+$dotenv->load();
+
+$entityManager = EntityManager::create(getenv('NEO4J_CONNECT_STRING'));

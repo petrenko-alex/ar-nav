@@ -333,7 +333,7 @@ class Console
 }
 
 if (!$entityManager) {
-	$entityManager = EntityManager::create('http://neo4j:123456@localhost:7474');
+	$entityManager = EntityManager::create(getenv('NEO4J_CONNECT_STRING'));
 }
 
 $console = new Console($entityManager);
