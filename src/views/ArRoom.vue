@@ -9,25 +9,33 @@
                 <qrcode-stream :track="true" @decode="onDecode" @init="onInit"/>
             </div>
         </a-scene>
+
+        <MarkerInfo v-model="show" card-title="">{{ currentText }}</MarkerInfo>
     </v-content>
 </template>
 
 <script>
   import {QrcodeStream, QrcodeDropZone, QrcodeCapture} from 'vue-qrcode-reader';
   import ArameComponents from '../components/aframe/components';
+  import MarkerInfo from '../components/MarkerInfo';
 
   export default {
     name: "ArRoom",
     props: ['id'],
     components: {
       QrcodeStream,
+      MarkerInfo,
     },
     data() {
       return {
         markersUrl: 'getplaceobjects.php',
         roomId: 0,
         goals: {},
-        currentText: 'Hello, Alex!',
+        currentText: 'Hello World',
+
+        counter: 0,
+
+        show: false
       }
     },
     created() {
@@ -53,11 +61,11 @@
       onDecode(result) {
         // TODO: Remove 2 lines below
         this.currentText = result;
-        console.log(result);
 
         const markerId = +result;
         if(this.goals.hasOwnProperty(markerId)) {
           this.currentText = this.goals[markerId].title;
+          //this.show = true;
         }
       },
 
