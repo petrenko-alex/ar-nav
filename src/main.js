@@ -8,6 +8,7 @@ import './registerServiceWorker';
 import 'roboto-fontface/css/roboto/roboto-fontface.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import '@fortawesome/fontawesome-free/css/all.css';
+import '@/css/main.css'
 
 Vue.config.productionTip = false;
 Vue.use(Resource);
