@@ -1,22 +1,32 @@
 <template>
     <v-content>
-        <a-scene embedded artoolkit="sourceType: webcam;">
-            <a-gltf-model src="/gltf/arrow/scene.gltf" position="1 1 0.5" rotation="0 90 90"></a-gltf-model>
+        <v-btn id="toggleMarkerInfoBtn" round @click.stop="showMarkerInfo = true">Show marker info</v-btn>
+
+
+        <a-scene embedded artoolkit="sourceType: webcam;" arjs="debugUIEnabled: false;">
+            <!--<a-gltf-model src="/gltf/arrow/scene.gltf" position="1 0.5 0.5" rotation="0 90 90"></a-gltf-model>-->
             <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="0.8 0 -0.5"></a-text>
 
+            <!--<a-entity geometry="primitive: plane"-->
+                      <!--scale="3 4 1"-->
+                      <!--position="0.8 1.5 0"-->
+                      <!--rotation="-90 0 0"-->
+                      <!--draw=" background: #ff9801;"-->
+                      <!--htmltexture="asset: #list"-->
+            <!--&gt;</a-entity>-->
+
             <a-marker-camera preset='hiro'></a-marker-camera>
-            <div style="visibility: hidden">
-                <qrcode-stream :track="true" @decode="onDecode" @init="onInit"/>
-            </div>
+            <!--<div style="visibility: hidden">-->
+                <!--<qrcode-stream :track="false" @decode="onDecode" @init="onInit"/>-->
+            <!--</div>-->
         </a-scene>
 
-        <MarkerInfo v-model="show" card-title="">{{ currentText }}</MarkerInfo>
+        <MarkerInfo v-model="showMarkerInfo" :card-title="markerInfoTitle">{{ markerInfoText }}</MarkerInfo>
     </v-content>
 </template>
 
 <script>
-  import {QrcodeStream, QrcodeDropZone, QrcodeCapture} from 'vue-qrcode-reader';
-  import ArameComponents from '../components/aframe/components';
+  import {QrcodeCapture, QrcodeDropZone, QrcodeStream} from 'vue-qrcode-reader';
   import MarkerInfo from '../components/MarkerInfo';
 
   export default {
@@ -28,14 +38,20 @@
     },
     data() {
       return {
-        markersUrl: 'getplaceobjects.php',
+        markersUrl: 'getplacemarkers.php',
         roomId: 0,
         goals: {},
         currentText: 'Hello World',
 
         counter: 0,
 
-        show: false
+        // Markers
+        markers: {},
+
+        // Marker info
+        markerInfoText: '',
+        markerInfoTitle: '',
+        showMarkerInfo: false,
       }
     },
     created() {
@@ -48,7 +64,13 @@
         .then(
           result => {
             if (result.ok) {
-              this.goals = result.body;
+              this.markers = result.body;
+
+              // Get random place object (imitate qr code decoded)
+              const randomMarkerId = this.testScanMarker();
+              this.onMarkerScanned(randomMarkerId);
+
+
             } else {
               console.log('Error getting goals for place. Status text: ' + result.statusText);
             }
@@ -58,32 +80,75 @@
           })
     },
     methods: {
+      // TODO: Test method (delete later)
+      testScanMarker() {
+        const markerIds = Object.keys(this.markers);
+        return markerIds[Math.floor(Math.random() * markerIds.length)];
+      },
+
+      onMarkerScanned(markerId) {
+        if (this.markers.hasOwnProperty(markerId)) {
+          const marker = this.markers[markerId];
+          const placeObject = marker['placeObject'];
+          this.markerInfoText = placeObject['description'];
+          this.markerInfoTitle = placeObject['title'];
+        }
+      },
+
       onDecode(result) {
         // TODO: Remove 2 lines below
         this.currentText = result;
+        console.log(result);
+        alert(result);
 
-        const markerId = +result;
-        if(this.goals.hasOwnProperty(markerId)) {
-          this.currentText = this.goals[markerId].title;
-          //this.show = true;
-        }
+        // const markerId = +result;
+        // if(this.goals.hasOwnProperty(markerId)) {
+        //   this.currentText = this.goals[markerId].title;
+        //   //this.show = true;
+        // }
       },
 
       async onInit(promise) {
         try {
-          await promise
+          console.log('before init qr');
+
+          await promise;
+
+          console.log('after init qr');
         } catch (error) {
+          alert(error);
+          this.currentText = error.name;
+          this.show = true;
+
           if (error.name === 'NotAllowedError') {
+            this.currentText = 'ERROR: you need to grant camera access permisson';
+            this.show = true;
+
             console.log('ERROR: you need to grant camera access permisson');
           } else if (error.name === 'NotFoundError') {
+            this.currentText = 'ERROR: no camera on this device';
+            this.show = true;
+
             console.log('ERROR: no camera on this device');
           } else if (error.name === 'NotSupportedError') {
+            this.currentText = 'ERROR: secure context required (HTTPS, localhost)';
+            this.show = true;
+
             console.log('ERROR: secure context required (HTTPS, localhost)');
           } else if (error.name === 'NotReadableError') {
+            this.currentText = 'ERROR: is the camera already in use?';
+            this.show = true;
+
             console.log('ERROR: is the camera already in use?');
           } else if (error.name === 'OverconstrainedError') {
+            this.currentText = 'ERROR: installed cameras are not suitable';
+            this.show = true;
+
             console.log('ERROR: installed cameras are not suitable');
           } else if (error.name === 'StreamApiNotSupportedError') {
+            this.currentText = 'ERROR: Stream API is not supported in this browser';
+            this.show = true;
+
             console.log('ERROR: Stream API is not supported in this browser');
           }
         }
@@ -93,6 +158,13 @@
 </script>
 
 <style>
+    #toggleMarkerInfoBtn {
+        z-index: 3;
+        position: absolute;
+        top: 10px;
+        left: 180px;
+    }
+
     #ar-js-video {
         z-index: 0 !important;
     }
