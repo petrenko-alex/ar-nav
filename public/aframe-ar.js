@@ -59248,12 +59248,12 @@ ARjs.Source.prototype._initSourceVideo = function (onReady) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ARjs.Source.prototype._initSourceWebcam = function (onReady, onError) {
-  var _this = this
+  var _this = this;
   
   // init default value
   onError = onError || function (error) {
     alert('Webcam Error\nName: ' + error.name + '\nMessage: ' + error.message)
-  }
+  };
   
   var domElement = document.createElement('video');
   domElement.setAttribute('autoplay', '');
@@ -59304,28 +59304,54 @@ ARjs.Source.prototype._initSourceWebcam = function (onReady, onError) {
     }
     
     // get a device which satisfy the constraints
-    navigator.mediaDevices.getUserMedia(userMediaConstraints).then(function success(stream) {
+    console.log('ar.js');
+    if (window.arNavCamera) {
+      console.log('ar.js use common camera');
+  
+  
       // set the .src of the domElement
-      domElement.srcObject = stream;
+      domElement.srcObject = window.arNavCamera;
+  
       // to start the video, when it is possible to start it only on userevent. like in android
       document.body.addEventListener('click', function () {
         domElement.play();
-      })
-      // domElement.play();
-
-// TODO listen to loadedmetadata instead
+      });
+  
+      // TODO listen to loadedmetadata instead
       // wait until the video stream is ready
       var interval = setInterval(function () {
         if (!domElement.videoWidth) return;
-        onReady()
+        onReady();
         clearInterval(interval)
       }, 1000 / 50);
-    }).catch(function (error) {
-      onError({
-        name: error.name,
-        message: error.message
+    } else {
+      console.log('ar.js init new camera');
+      
+      navigator.mediaDevices.getUserMedia(userMediaConstraints).then(function success(stream) {
+        window.arNavCamera = stream;
+        // set the .src of the domElement
+        domElement.srcObject = stream;
+        // to start the video, when it is possible to start it only on userevent. like in android
+        document.body.addEventListener('click', function () {
+          domElement.play();
+        });
+        // domElement.play();
+    
+        // TODO listen to loadedmetadata instead
+        // wait until the video stream is ready
+        var interval = setInterval(function () {
+          if (!domElement.videoWidth) return;
+          onReady()
+          clearInterval(interval)
+        }, 1000 / 50);
+      }).catch(function (error) {
+        onError({
+          name: error.name,
+          message: error.message
+        });
       });
-    });
+    }
+    
   }).catch(function (error) {
     onError({
       message: error.message
