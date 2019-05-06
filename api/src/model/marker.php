@@ -138,6 +138,10 @@ class Marker
 	 */
 	public function toArray()
 	{
-		return get_object_vars($this);
+		return [
+		    'id' => $this->id,
+            'title' => $this->title,
+            'placeObject' => $this->placeObject->toArray(),
+        ];
 	}
 }
