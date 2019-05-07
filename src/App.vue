@@ -16,7 +16,7 @@
 
       <v-toolbar app>
         <v-toolbar-side-icon @click.stop="showSideMenu = !showSideMenu"></v-toolbar-side-icon>
-        <v-toolbar-title class="headline text-uppercase">
+        <v-toolbar-title class="headline">
           <span>{{ appName }}</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       showSideMenu: false,
-      appName: 'ar-nav',
+      appName: 'AR-Nav',
       appRepoUrl: '//github.com/gafk/ar-nav',
       routes: this.$router.options.routes,
     }
