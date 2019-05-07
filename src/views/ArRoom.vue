@@ -1,6 +1,7 @@
 <template>
     <v-content>
         <v-btn id="toggleMarkerInfoBtn" round @click.stop="showMarkerInfo = true">Show marker info</v-btn>
+        <v-btn id="toggleDialogBtn" round @click.stop="showDialog = true">Show dialog</v-btn>
 
 
         <a-scene embedded artoolkit="sourceType: webcam;" arjs="debugUIEnabled: false;">
@@ -21,6 +22,7 @@
             <!--</div>-->
         </a-scene>
 
+        <StartDialog v-model="showDialog"></StartDialog>
         <MarkerInfo v-model="showMarkerInfo" :card-title="markerInfoTitle">{{ markerInfoText }}</MarkerInfo>
     </v-content>
 </template>
@@ -28,6 +30,7 @@
 <script>
   import {QrcodeCapture, QrcodeDropZone, QrcodeStream} from 'vue-qrcode-reader';
   import MarkerInfo from '../components/MarkerInfo';
+  import StartDialog from '../components/dialogs/StartDialog';
 
   export default {
     name: "ArRoom",
@@ -35,6 +38,7 @@
     components: {
       QrcodeStream,
       MarkerInfo,
+      StartDialog,
     },
     data() {
       return {
@@ -43,7 +47,8 @@
         goals: {},
         currentText: 'Hello World',
 
-        counter: 0,
+        // Dialog
+        showDialog: false,
 
         // Markers
         markers: {},
@@ -67,7 +72,8 @@
               this.markers = result.body;
 
               // Get random place object (imitate qr code decoded)
-              const randomMarkerId = this.testScanMarker();
+              //const randomMarkerId = this.testScanMarker();
+              const randomMarkerId = 2;
               this.onMarkerScanned(randomMarkerId);
 
 
@@ -158,6 +164,13 @@
 </script>
 
 <style>
+    #toggleDialogBtn {
+        z-index: 3;
+        position: absolute;
+        top: 60px;
+        left: 180px;
+    }
+
     #toggleMarkerInfoBtn {
         z-index: 3;
         position: absolute;
