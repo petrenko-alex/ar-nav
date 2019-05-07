@@ -1,5 +1,5 @@
 <template>
-    <v-dialog id="modal" v-model="show" width="500">
+    <v-dialog id="modal" v-model="show" scrollable max-width="500px">
         <v-card>
             <v-card-title class="headline grey lighten-2" primary-title v-if="!!cardTitle">
                 {{ cardTitle }}
