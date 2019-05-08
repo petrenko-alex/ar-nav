@@ -3,6 +3,7 @@ import App from './App.vue';
 import Resource from 'vue-resource';
 import Vuetify from 'vuetify';
 import router from './router';
+import colors from 'vuetify/es5/util/colors';
 import './plugins/vuetify';
 import './registerServiceWorker';
 import 'roboto-fontface/css/roboto/roboto-fontface.css';
@@ -16,6 +17,9 @@ Vue.use(Vuetify, {
   iconfont: 'fa5',
   icons: {
     'github' : 'fab fa-github'
+  },
+  theme: {
+    accent: colors.orange,
   }
 });
 Vue.config.ignoredElements = [

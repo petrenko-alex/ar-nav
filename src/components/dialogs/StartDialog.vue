@@ -9,16 +9,16 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-                <v-btn color="primary" flat @click="prevText" :disabled="prevButtonDisabled">
-                    <v-icon class="text-main-color">fas fa-angle-left</v-icon>
+                <v-btn flat @click="prevText" :disabled="prevButtonDisabled">
+                    <v-icon color="accent">fas fa-angle-left</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" flat @click.stop="show = false" :disabled="closeButtonDisabled">
-                    <v-icon class="text-main-color">fas fa-times</v-icon>
+                <v-btn flat @click.stop="show = false" :disabled="closeButtonDisabled">
+                    <v-icon color="accent">fas fa-times</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" flat @click="nextText" :disabled="nextButtonDisabled">
-                    <v-icon class="text-main-color">fas fa-angle-right</v-icon>
+                <v-btn flat @click="nextText" :disabled="nextButtonDisabled">
+                    <v-icon color="accent">fas fa-angle-right</v-icon>
                 </v-btn>
             </v-card-actions>
         </v-card>
