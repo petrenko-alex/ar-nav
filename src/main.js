@@ -16,7 +16,11 @@ Vue.use(Resource);
 Vue.use(Vuetify, {
   iconfont: 'fa5',
   icons: {
-    'github' : 'fab fa-github'
+    'github' : 'fab fa-github',
+    'leftAngle': 'fas fa-angle-left',
+    'rightAngle': 'fas fa-angle-right',
+    'close': 'fas fa-times',
+    'stack': 'fas fa-layer-group',
   },
   theme: {
     accent: colors.orange,

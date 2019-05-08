@@ -10,15 +10,15 @@
             <v-divider></v-divider>
             <v-card-actions>
                 <v-btn flat @click="prevText" :disabled="prevButtonDisabled">
-                    <v-icon color="accent">fas fa-angle-left</v-icon>
+                    <v-icon color="accent">$vuetify.icons.leftAngle</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
                 <v-btn flat @click.stop="show = false" :disabled="closeButtonDisabled">
-                    <v-icon color="accent">fas fa-times</v-icon>
+                    <v-icon color="accent">$vuetify.icons.close</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
                 <v-btn flat @click="nextText" :disabled="nextButtonDisabled">
-                    <v-icon color="accent">fas fa-angle-right</v-icon>
+                    <v-icon color="accent">$vuetify.icons.rightAngle</v-icon>
                 </v-btn>
             </v-card-actions>
         </v-card>
