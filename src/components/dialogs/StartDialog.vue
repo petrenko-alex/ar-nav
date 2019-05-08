@@ -3,6 +3,11 @@
         <v-card>
             <v-card-title class="headline grey lighten-2" primary-title>
                 {{ currentTitle }}
+                <v-spacer></v-spacer>
+                <v-chip outline v-if="steps > 1">
+                    {{ counter }}
+                    <v-icon right>$vuetify.icons.stack</v-icon>
+                </v-chip>
             </v-card-title>
             <v-card-text>
                 {{ currentText }}
@@ -69,6 +74,9 @@
       },
       steps() {
         return this.texts.length;
+      },
+      counter() {
+        return (this.currentStep + 1) + '/' + this.steps;
       }
     },
     methods: {
