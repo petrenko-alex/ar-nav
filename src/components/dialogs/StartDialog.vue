@@ -9,15 +9,15 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-                <v-btn color="primary" flat @click="prevText">
+                <v-btn color="primary" flat @click="prevText" :disabled="prevButtonDisabled">
                     <v-icon class="text-main-color">fas fa-angle-left</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" flat @click.stop="show = false">
+                <v-btn color="primary" flat @click.stop="show = false" :disabled="closeButtonDisabled">
                     <v-icon class="text-main-color">fas fa-times</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" flat @click="nextText">
+                <v-btn color="primary" flat @click="nextText" :disabled="nextButtonDisabled">
                     <v-icon class="text-main-color">fas fa-angle-right</v-icon>
                 </v-btn>
             </v-card-actions>
@@ -33,10 +33,12 @@
     ],
     data() {
       return {
+        // State
         currentStep: 0,
         currentTitle: '',
         currentText: '',
 
+        // Data
         titles: [
           'AR-Nav',
         ],
@@ -45,11 +47,16 @@
           'Приветствуем вас в приложении AR-Nav 2',
           'Приветствуем вас в приложении AR-Nav 3',
         ],
+
+        // Controls
+        nextButtonDisabled: true,
+        prevButtonDisabled: true,
+        closeButtonDisabled: false,
       }
     },
     created() {
-        this.currentTitle = this.titles[this.currentStep];
-        this.currentText = this.texts[this.currentStep]
+      this.init();
+      this.controlButtons();
     },
     computed: {
       show: {
@@ -65,13 +72,19 @@
       }
     },
     methods: {
+      init() {
+        this.currentTitle = this.titles[this.currentStep];
+        this.currentText = this.texts[this.currentStep];
+      },
       nextText() {
         this.nextStep();
-        this.setCurrentText(this.currentStep)
+        this.setCurrentText(this.currentStep);
+        this.controlButtons();
       },
       prevText() {
         this.prevStep();
         this.setCurrentText(this.currentStep)
+        this.controlButtons();
       },
       setCurrentText(stepNumber) {
         const text = this.texts[stepNumber];
@@ -90,6 +103,16 @@
         if (this.currentStep < 0) {
           this.currentStep = 0;
         }
+      },
+      controlButtons() {
+        this.controlNextButton();
+        this.controlPrevButton();
+      },
+      controlNextButton() {
+        this.nextButtonDisabled = this.currentStep === (this.steps - 1);
+      },
+      controlPrevButton() {
+        this.prevButtonDisabled = this.currentStep === 0;
       },
     },
   }
