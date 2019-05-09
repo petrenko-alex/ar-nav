@@ -31,17 +31,16 @@
 </template>
 
 <script>
-  export default {
+    import {stackDialogMixin} from "@/mixins/stackDialogMixin";
+
+    export default {
     name: "StartDialog",
     props: [
       'value',
     ],
+    mixins: [stackDialogMixin],
     data() {
       return {
-        // State
-        currentStep: 0,
-        currentText: '',
-
         // Data
         title: 'AR-Nav',
         texts: [
@@ -49,16 +48,7 @@
           'Приветствуем вас в приложении AR-Nav 2',
           'Приветствуем вас в приложении AR-Nav 3',
         ],
-
-        // Controls
-        nextButtonDisabled: true,
-        prevButtonDisabled: true,
-        closeButtonDisabled: true,
       }
-    },
-    created() {
-      this.init();
-      this.controlButtons();
     },
     computed: {
       show: {
@@ -69,62 +59,6 @@
           this.$emit('input', value);
         }
       },
-      steps() {
-        return this.texts.length;
-      },
-      counter() {
-        return (this.currentStep + 1) + '/' + this.steps;
-      },
-      oneStepDialog() {
-        return this.steps === 1;
-      },
-    },
-    methods: {
-      init() {
-        this.currentText = this.texts[this.currentStep];
-      },
-      nextText() {
-        this.nextStep();
-        this.setCurrentText(this.currentStep);
-        this.controlButtons();
-      },
-      prevText() {
-        this.prevStep();
-        this.setCurrentText(this.currentStep);
-        this.controlButtons();
-      },
-      setCurrentText(stepNumber) {
-        const text = this.texts[stepNumber];
-        if (text) {
-          this.currentText = text;
-        }
-      },
-      nextStep() {
-        this.currentStep++;
-        if (this.currentStep >= this.steps) {
-          this.currentStep = (this.steps - 1);
-        }
-      },
-      prevStep() {
-        this.currentStep--;
-        if (this.currentStep < 0) {
-          this.currentStep = 0;
-        }
-      },
-      controlButtons() {
-        this.controlNextButton();
-        this.controlPrevButton();
-        this.controlCloseButton();
-      },
-      controlNextButton() {
-        this.nextButtonDisabled = this.currentStep === (this.steps - 1);
-      },
-      controlPrevButton() {
-        this.prevButtonDisabled = this.currentStep === 0;
-      },
-      controlCloseButton() {
-        this.closeButtonDisabled = this.currentStep !== (this.steps - 1)
-      }
     },
   }
 </script>
