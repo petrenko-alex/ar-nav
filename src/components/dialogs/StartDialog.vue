@@ -1,7 +1,7 @@
 <template>
     <v-dialog id="dialog" value="true" v-model="show" scrollable max-width="500px">
         <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title v-if="title || !oneStepDialog">
+            <v-card-title class="headline grey lighten-2" v-if="title || !oneStepDialog">
                 {{ title }}
                 <v-spacer></v-spacer>
                 <v-chip outline v-if="!oneStepDialog">
