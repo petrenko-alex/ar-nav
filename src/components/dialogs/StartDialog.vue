@@ -4,7 +4,7 @@
             <v-card-title class="headline grey lighten-2" primary-title>
                 {{ currentTitle }}
                 <v-spacer></v-spacer>
-                <v-chip outline v-if="steps > 1">
+                <v-chip outline v-if="!oneStepDialog">
                     {{ counter }}
                     <v-icon right>$vuetify.icons.stack</v-icon>
                 </v-chip>
@@ -14,7 +14,7 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-                <v-btn flat @click="prevText" :disabled="prevButtonDisabled">
+                <v-btn flat @click="prevText" :disabled="prevButtonDisabled" v-if="!oneStepDialog">
                     <v-icon color="accent">$vuetify.icons.leftAngle</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
@@ -22,7 +22,7 @@
                     <v-icon color="accent">$vuetify.icons.ok</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn flat @click="nextText" :disabled="nextButtonDisabled">
+                <v-btn flat @click="nextText" :disabled="nextButtonDisabled" v-if="!oneStepDialog">
                     <v-icon color="accent">$vuetify.icons.rightAngle</v-icon>
                 </v-btn>
             </v-card-actions>
@@ -77,7 +77,10 @@
       },
       counter() {
         return (this.currentStep + 1) + '/' + this.steps;
-      }
+      },
+      oneStepDialog() {
+        return this.steps === 1;
+      },
     },
     methods: {
       init() {
