@@ -1,8 +1,8 @@
 <template>
     <v-dialog id="dialog" value="true" v-model="show" scrollable max-width="500px">
         <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>
-                {{ currentTitle }}
+            <v-card-title class="headline grey lighten-2" primary-title v-if="title || !oneStepDialog">
+                {{ title }}
                 <v-spacer></v-spacer>
                 <v-chip outline v-if="!oneStepDialog">
                     {{ counter }}
@@ -40,13 +40,10 @@
       return {
         // State
         currentStep: 0,
-        currentTitle: '',
         currentText: '',
 
         // Data
-        titles: [
-          'AR-Nav',
-        ],
+        title: 'AR-Nav',
         texts: [
           'Приветствуем вас в приложении AR-Nav!',
           'Приветствуем вас в приложении AR-Nav 2',
@@ -84,7 +81,6 @@
     },
     methods: {
       init() {
-        this.currentTitle = this.titles[this.currentStep];
         this.currentText = this.texts[this.currentStep];
       },
       nextText() {
