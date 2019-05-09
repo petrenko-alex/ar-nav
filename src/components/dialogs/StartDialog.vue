@@ -18,8 +18,8 @@
                     <v-icon color="accent">$vuetify.icons.leftAngle</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn flat @click.stop="show = false" :disabled="closeButtonDisabled">
-                    <v-icon color="accent">$vuetify.icons.close</v-icon>
+                <v-btn flat @click.stop="show = false" :disabled="closeButtonDisabled" v-show="!closeButtonDisabled">
+                    <v-icon color="accent">$vuetify.icons.ok</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
                 <v-btn flat @click="nextText" :disabled="nextButtonDisabled">
@@ -56,7 +56,7 @@
         // Controls
         nextButtonDisabled: true,
         prevButtonDisabled: true,
-        closeButtonDisabled: false,
+        closeButtonDisabled: true,
       }
     },
     created() {
@@ -91,7 +91,7 @@
       },
       prevText() {
         this.prevStep();
-        this.setCurrentText(this.currentStep)
+        this.setCurrentText(this.currentStep);
         this.controlButtons();
       },
       setCurrentText(stepNumber) {
@@ -115,6 +115,7 @@
       controlButtons() {
         this.controlNextButton();
         this.controlPrevButton();
+        this.controlCloseButton();
       },
       controlNextButton() {
         this.nextButtonDisabled = this.currentStep === (this.steps - 1);
@@ -122,6 +123,9 @@
       controlPrevButton() {
         this.prevButtonDisabled = this.currentStep === 0;
       },
+      controlCloseButton() {
+        this.closeButtonDisabled = this.currentStep !== (this.steps - 1)
+      }
     },
   }
 </script>

@@ -21,6 +21,7 @@ Vue.use(Vuetify, {
     'rightAngle': 'fas fa-angle-right',
     'close': 'fas fa-times',
     'stack': 'fas fa-layer-group',
+    'ok': 'fas fa-check',
   },
   theme: {
     accent: colors.orange,
