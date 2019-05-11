@@ -22,7 +22,7 @@
             <!--</div>-->
         </a-scene>
 
-        <StackDialog v-model="showDialog"></StackDialog>
+        <StackDialog v-if="showDialog" v-model="showDialog" :texts="dialogTexts" :title="dialogTitle"></StackDialog>
         <MarkerInfo v-model="showMarkerInfo" :card-title="markerInfoTitle">{{ markerInfoText }}</MarkerInfo>
     </v-content>
 </template>
@@ -47,8 +47,10 @@
         goals: {},
         currentText: 'Hello World',
 
-        // Dialog
+        // Dialogs
         showDialog: false,
+        dialogTitle: 'AR-Nav',
+        dialogTexts: [],
 
         // Markers
         markers: {},
@@ -76,7 +78,7 @@
               const randomMarkerId = 2;
               this.onMarkerScanned(randomMarkerId);
 
-
+              this.init();
             } else {
               console.log('Error getting goals for place. Status text: ' + result.statusText);
             }
@@ -86,6 +88,62 @@
           })
     },
     methods: {
+      init() {
+        this.prepareInitDialog();
+        this.rememberUser();
+      },
+
+      prepareInitDialog() {
+        const localStorageInit = localStorage.getItem('init') === 'true';
+        const sessionStorageInit = sessionStorage.getItem('activeSession') === 'true';
+
+        if(!localStorageInit) {
+          this.dialogTexts = this.getDialogTextForFirstTimeEverUser();
+          this.showDialog = true;
+        } else if(localStorageInit && !sessionStorageInit) {
+          // Returnee user
+          this.dialogTexts = this.getDialogTextForReturnedUser();
+          this.showDialog = true;
+        }
+      },
+
+      rememberUser() {
+        const localStorageInit = localStorage.getItem('init') === 'true';
+        const sessionStorageInit = sessionStorage.getItem('activeSession') === 'true';
+
+        if (!localStorageInit) {
+          localStorage.setItem('init', 'true');
+        }
+
+        if (!sessionStorageInit) {
+          sessionStorage.setItem('activeSession', 'true');
+        }
+      },
+
+      /**
+       * Возвращает привественный текст для пользователя, который впервые запустил приложение.
+       *
+       * @returns {string[]}
+       */
+      getDialogTextForFirstTimeEverUser() {
+        return [
+          'Приветствуем вас в приложении AR-Nav!',
+          'Для начала вам необходимо выбрать цель. Цель - это объект, который вы хотите найти.',
+        ];
+      },
+
+      /**
+       * Возвращает привественный текст для вернувшегося пользователя.
+       * (второй и более раз запустил приложение)
+       *
+       * @returns {string[]}
+       */
+      getDialogTextForReturnedUser() {
+        return [
+          'С возвращением в приложение AR-Nav! Давайте выберем цель.',
+        ];
+      },
+
       // TODO: Test method (delete later)
       testScanMarker() {
         const markerIds = Object.keys(this.markers);
