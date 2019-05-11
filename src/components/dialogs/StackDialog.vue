@@ -1,5 +1,5 @@
 <template>
-    <v-dialog id="dialog" value="true" v-model="show" scrollable max-width="500px" v-if="texts.length">
+    <v-dialog id="stackDialog" value="true" v-model="show" scrollable max-width="500px" v-if="texts.length">
         <v-card>
             <v-card-title class="headline grey lighten-2" v-if="title || !oneStepDialog">
                 {{ title }}
@@ -32,7 +32,7 @@
 
 <script>
   export default {
-    name: "StartDialog",
+    name: "StackDialog",
     props: [
       'value',
       'texts',

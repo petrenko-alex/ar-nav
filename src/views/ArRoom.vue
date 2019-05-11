@@ -22,7 +22,7 @@
             <!--</div>-->
         </a-scene>
 
-        <StartDialog v-model="showDialog"></StartDialog>
+        <StackDialog v-model="showDialog"></StackDialog>
         <MarkerInfo v-model="showMarkerInfo" :card-title="markerInfoTitle">{{ markerInfoText }}</MarkerInfo>
     </v-content>
 </template>
@@ -30,7 +30,7 @@
 <script>
   import {QrcodeCapture, QrcodeDropZone, QrcodeStream} from 'vue-qrcode-reader';
   import MarkerInfo from '../components/MarkerInfo';
-  import StartDialog from '../components/dialogs/StartDialog';
+  import StackDialog from '../components/dialogs/StackDialog';
 
   export default {
     name: "ArRoom",
@@ -38,7 +38,7 @@
     components: {
       QrcodeStream,
       MarkerInfo,
-      StartDialog,
+      StackDialog,
     },
     data() {
       return {
