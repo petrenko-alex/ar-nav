@@ -18,7 +18,7 @@
                     <v-icon color="primary">$vuetify.icons.leftAngle</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn flat @click.stop="show = false" :disabled="closeButtonDisabled" v-show="!closeButtonDisabled">
+                <v-btn flat @click.stop="dialogRead" :disabled="closeButtonDisabled" v-show="!closeButtonDisabled">
                     <v-icon color="primary">$vuetify.icons.ok</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
@@ -76,6 +76,10 @@
     methods: {
       init() {
         this.currentText = this.texts[this.currentStep];
+      },
+      dialogRead() {
+        this.$emit('dialog-read');
+        this.show = false;
       },
       nextText() {
         this.nextStep();
