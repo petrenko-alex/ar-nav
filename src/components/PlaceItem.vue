@@ -9,7 +9,7 @@
         </v-card-title>
         <v-card-actions>
             <v-layout row justify-center mb-1>
-                <v-btn flat color="orange" :to="{name: 'ar_room', params: {id: place.id}}">
+                <v-btn flat color="primary" :to="{name: 'ar_room', params: {id: place.id}}">
                     Исследовать
                 </v-btn>
             </v-layout>

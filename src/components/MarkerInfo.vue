@@ -10,8 +10,8 @@
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" flat @click.stop="show = false">
-                    <v-icon color="accent">$vuetify.icons.close</v-icon>
+                <v-btn flat @click.stop="show = false">
+                    <v-icon color="primary">$vuetify.icons.close</v-icon>
                 </v-btn>
             </v-card-actions>
         </v-card>

@@ -15,15 +15,15 @@
             <v-divider></v-divider>
             <v-card-actions>
                 <v-btn flat @click="prevText" :disabled="prevButtonDisabled" v-if="!oneStepDialog">
-                    <v-icon color="accent">$vuetify.icons.leftAngle</v-icon>
+                    <v-icon color="primary">$vuetify.icons.leftAngle</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
                 <v-btn flat @click.stop="show = false" :disabled="closeButtonDisabled" v-show="!closeButtonDisabled">
-                    <v-icon color="accent">$vuetify.icons.ok</v-icon>
+                    <v-icon color="primary">$vuetify.icons.ok</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
                 <v-btn flat @click="nextText" :disabled="nextButtonDisabled" v-if="!oneStepDialog">
-                    <v-icon color="accent">$vuetify.icons.rightAngle</v-icon>
+                    <v-icon color="primary">$vuetify.icons.rightAngle</v-icon>
                 </v-btn>
             </v-card-actions>
         </v-card>
