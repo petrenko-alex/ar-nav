@@ -1,7 +1,8 @@
 <template>
     <v-content>
         <v-btn id="toggleMarkerInfoBtn" round @click.stop="showMarkerInfo = true">Show marker info</v-btn>
-        <v-btn id="toggleDialogBtn" round @click.stop="showDialog = true">Show dialog</v-btn>
+        <v-btn id="toggleStartDialogBtn" round @click.stop="showWelcomeDialog = true">Show start dialog</v-btn>
+        <v-btn id="toggleSelectGoalDialogBtn" round @click.stop="showSelectGoalDialog = true">Show goal dialog</v-btn>
 
 
         <a-scene embedded artoolkit="sourceType: webcam;" arjs="debugUIEnabled: false;">
@@ -22,8 +23,21 @@
             <!--</div>-->
         </a-scene>
 
-        <StackDialog v-if="showDialog" v-model="showDialog" :texts="dialogTexts" :title="dialogTitle"></StackDialog>
-        <MarkerInfo v-model="showMarkerInfo" :card-title="markerInfoTitle">{{ markerInfoText }}</MarkerInfo>
+        <StackDialog v-if="showWelcomeDialog" v-model="showWelcomeDialog"
+                     :texts="welcomeDialogTexts" :title="welcomeDialogTitle"
+                     v-on:dialog-read="welcomeDialogRead"
+        ></StackDialog>
+
+        <SelectGoalDialog v-model="showSelectGoalDialog"
+                          :goals="goals"
+                          v-on:goal-selected="goalSelected"
+        ></SelectGoalDialog>
+
+        <MarkerInfo v-model="showMarkerInfo"
+                    :card-title="markerInfoTitle"
+        >
+            {{ markerInfoText }}
+        </MarkerInfo>
     </v-content>
 </template>
 
@@ -31,6 +45,7 @@
   import {QrcodeCapture, QrcodeDropZone, QrcodeStream} from 'vue-qrcode-reader';
   import MarkerInfo from '../components/MarkerInfo';
   import StackDialog from '../components/dialogs/StackDialog';
+  import SelectGoalDialog from '../components/dialogs/SelectGoalDialog';
 
   export default {
     name: "ArRoom",
@@ -39,21 +54,23 @@
       QrcodeStream,
       MarkerInfo,
       StackDialog,
+      SelectGoalDialog,
     },
     data() {
       return {
         markersUrl: 'getplacemarkers.php',
         roomId: 0,
-        goals: {},
         currentText: 'Hello World',
 
-        // Dialogs
-        showDialog: false,
-        dialogTitle: 'AR-Nav',
-        dialogTexts: [],
-
-        // Markers
         markers: {},
+        goals: {},
+        currentGoalId: 0,
+
+        // Dialogs
+        showSelectGoalDialog: false,
+        showWelcomeDialog: false,
+        welcomeDialogTitle: 'AR-Nav',
+        welcomeDialogTexts: [],
 
         // Marker info
         markerInfoText: '',
@@ -89,24 +106,78 @@
     },
     methods: {
       init() {
-        this.prepareInitDialog();
+        this.initGoals();
+        this.initStartDialog();
+
         this.rememberUser();
       },
 
-      prepareInitDialog() {
+      /**
+       * Обработчик события "Цель выбрана".
+       *
+       * @param {number} goalId id цели
+       */
+      goalSelected(goalId) {
+        let self = this;
+        this.currentGoalId = goalId;
+        sessionStorage.setItem('activeGoalId', this.currentGoalId);
+
+        setTimeout(function () {
+          self.showSelectGoalDialog = false;
+        }, 300);
+      },
+
+      /**
+       * Обработчик события "Приветственный диалог прочитан"
+       */
+      welcomeDialogRead() {
+        // Показать окно выбора цели
+        this.showSelectGoalDialog = true;
+      },
+
+      /**
+       * Инициализирует объект целей на основе объекта маркеров
+       */
+      initGoals() {
+          for(let markerId in this.markers) {
+            let marker = this.markers[markerId];
+            if(marker.hasOwnProperty('placeObject')) {
+              let markerPlaceObject = marker['placeObject'];
+              if (!this.goals.hasOwnProperty(markerPlaceObject['id'])) {
+                this.goals[markerPlaceObject['id']] = markerPlaceObject;
+              }
+            }
+          }
+      },
+
+      /**
+       * Инициализирует начальный диалог в зависимости
+       * от "статуса пользователя"
+       * "Статус пользователя" - данные об использовании приложения
+       */
+      initStartDialog() {
         const localStorageInit = localStorage.getItem('init') === 'true';
         const sessionStorageInit = sessionStorage.getItem('activeSession') === 'true';
+        const activeGoalId = sessionStorage.getItem('activeGoalId');
 
         if(!localStorageInit) {
-          this.dialogTexts = this.getDialogTextForFirstTimeEverUser();
-          this.showDialog = true;
+          // First time ever user
+          this.welcomeDialogTexts = this.getDialogTextForFirstTimeEverUser();
+          this.showWelcomeDialog = true;
         } else if(localStorageInit && !sessionStorageInit) {
-          // Returnee user
-          this.dialogTexts = this.getDialogTextForReturnedUser();
-          this.showDialog = true;
+          // Returnee user (after closing app)
+          this.welcomeDialogTexts = this.getDialogTextForReturnedUser();
+          this.showWelcomeDialog = true;
+        } else if(localStorageInit && sessionStorageInit && !activeGoalId) {
+          // Returnee user (not set goal yet)
+          this.showSelectGoalDialog = true;
         }
       },
 
+      /**
+       * Записывает "статус пользователя".
+       * "Статус пользователя" - данные об использовании приложения
+       */
       rememberUser() {
         const localStorageInit = localStorage.getItem('init') === 'true';
         const sessionStorageInit = sessionStorage.getItem('activeSession') === 'true';
@@ -143,6 +214,9 @@
           'С возвращением в приложение AR-Nav! Давайте выберем цель.',
         ];
       },
+
+
+
 
       // TODO: Test method (delete later)
       testScanMarker() {
@@ -222,17 +296,24 @@
 </script>
 
 <style>
-    #toggleDialogBtn {
+    #toggleMarkerInfoBtn {
+        z-index: 3;
+        position: absolute;
+        top: 10px;
+        left: 180px;
+    }
+
+    #toggleStartDialogBtn {
         z-index: 3;
         position: absolute;
         top: 60px;
         left: 180px;
     }
 
-    #toggleMarkerInfoBtn {
+    #toggleSelectGoalDialogBtn {
         z-index: 3;
         position: absolute;
-        top: 10px;
+        top: 110px;
         left: 180px;
     }
 
