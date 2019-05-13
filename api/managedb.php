@@ -177,108 +177,152 @@ class Console
 				'name' => 'Кафедра САПР',
 				'description' => 'Этаж кафедры САПРиПК. Учебно-лабораторный корпус "В". 14 этаж.',
 				'image' => 'https://source.unsplash.com/random/400x400?sig=' . rand(1, 1000),
-			],
-		];
+			],];
 
 
 		// Fill poas places
-		$poasPlaceObjects = [[
+        $poasPlaceObjects = [
+            [
                 'id' => 1,
-                'title' => '901',
+                'title' => 'Ауд. 901',
                 'description' => 'room #901',
                 'type' => 'room',
-                'markers' => [[
-                    'id' => 1
-                ]],
-            ], [
-		        'id' => 2,
-		        'title' => '902',
+                'markers' => [
+                    [
+                        'id' => 1
+                    ]
+                ],
+            ],
+            [
+                'id' => 2,
+                'title' => 'Ауд. 902',
                 'description' => 'room #902',
                 'type' => 'room',
-                'markers' => [[
-                    'id' => 2
-                ]],
+                'markers' => [
+                    [
+                        'id' => 2
+                    ]
+                ],
 
-            ], [
+            ],
+            [
                 'id' => 3,
-                'title' => '903',
+                'title' => 'Ауд. 903',
                 'description' => 'room #903',
                 'type' => 'room',
-                'markers' => [[
-                    'id' => 3
-                ]],
+                'markers' => [
+                    [
+                        'id' => 3
+                    ]
+                ],
 
-            ], [
+            ],
+            [
                 'id' => 4,
-                'title' => '904',
+                'title' => 'Ауд. 904',
                 'description' => 'room #904',
                 'type' => 'room',
-                'markers' => [[
-                    'id' => 4
-                ]],
+                'markers' => [
+                    [
+                        'id' => 4
+                    ]
+                ],
 
-            ], [
+            ],
+            [
                 'id' => 5,
-                'title' => '905',
+                'title' => 'Ауд. 905',
                 'description' => 'room #905',
                 'type' => 'room',
-                'markers' => [[
-                    'id' => 5
-                ]],
+                'markers' => [
+                    [
+                        'id' => 5
+                    ]
+                ],
 
-            ], [
+            ],
+            [
                 'id' => 6,
-                'title' => '906',
+                'title' => 'Ауд. 906',
                 'description' => 'room #906',
                 'type' => 'room',
-                'markers' => [[
-                    'id' => 6
-                ]],
+                'markers' => [
+                    [
+                        'id' => 6
+                    ]
+                ],
 
-            ], [
+            ],
+            [
                 'id' => 7,
-                'title' => '908',
+                'title' => 'Ауд. 907',
+                'description' => 'room #907',
+                'type' => 'room',
+                'markers' => [
+                    [
+                        'id' => 7
+                    ]
+                ],
+
+            ],
+            [
+                'id' => 8,
+                'title' => 'Ауд. 908',
                 'description' => 'room #908',
                 'type' => 'room',
-                'markers' => [[
-                    'id' => 7
-                ]],
+                'markers' => [
+                    [
+                        'id' => 8
+                    ]
+                ],
 
-            ], [
-                'id' => 8,
-                'title' => 'Male WC',
+            ],
+            [
+                'id' => 9,
+                'title' => 'Мужской туалет',
                 'description' => 'Male WC',
                 'type' => 'wc',
-                'markers' => [[
-                    'id' => 8
-                ]],
+                'markers' => [
+                    [
+                        'id' => 9
+                    ]
+                ],
 
-            ], [
-                'id' => 9,
-                'title' => 'Female WC',
+            ],
+            [
+                'id' => 10,
+                'title' => 'Женский туалет',
                 'description' => 'Female WC',
                 'type' => 'wc',
-                'markers' => [[
-                    'id' => 9
-                ]],
+                'markers' => [
+                    [
+                        'id' => 10
+                    ]
+                ],
 
-            ], [
-                'id' => 10,
-                'title' => 'Elevator',
+            ],
+            [
+                'id' => 11,
+                'title' => 'Лифтовая',
                 'description' => 'Elevator room',
                 'type' => 'elevator',
-                'markers' => [[
-                    'id' => 10
-                ]],
+                'markers' => [
+                    [
+                        'id' => 11
+                    ]
+                ],
 
-            ], [
-                'id' => 11,
-                'title' => 'Ladder',
+            ],
+            [
+                'id' => 12,
+                'title' => 'Лестница',
                 'description' => 'Ladder',
                 'type' => 'ladder',
-                'markers' => [[
-                    'id' => 11
-                ]],
+                'markers' => [
+                    [
+                        'id' => 12
+                    ]
+                ],
 
             ],
         ];
