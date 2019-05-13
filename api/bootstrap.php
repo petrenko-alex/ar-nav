@@ -5,6 +5,10 @@ use Dotenv\Dotenv;
 
 require_once('vendor/autoload.php');
 
+if (!$_SERVER["DOCUMENT_ROOT"]) {
+	$_SERVER["DOCUMENT_ROOT"] = realpath(__DIR__ . '/../');
+}
+
 $dotenv = Dotenv::create($_SERVER["DOCUMENT_ROOT"]);
 $dotenv->load();
 
