@@ -66,7 +66,7 @@ class Console
 	protected function createTestDbCommand()
 	{
 		/** @var  GraphAware\Neo4j\OGM\EntityManager $entityManager */
-		$dbArray = $this->getTestDbAsArray();
+		$dbArray = $this->getData();
 
         // Create Places
 		foreach ($dbArray as $place)
@@ -94,7 +94,7 @@ class Console
                     $placeObjectMarkers = [];
                     foreach ($placeObject['markers'] as $marker)
                     {
-                        $markerObj = new Marker('m_' . $placeObject['title'], $placeObjectObj);
+                        $markerObj = new Marker($marker['title'], $placeObjectObj);
                         $this->entityManager->persist($markerObj);
 
                         $placeObjectMarkers[] = $markerObj;
@@ -119,31 +119,33 @@ class Console
 
         // Add relationships between markers in POAS place
         // TODO: Make it bidirectional
-        try {
-            $query = $this->entityManager->createQuery(
-                "MATCH (m:Marker)-[:ASSIGNED_TO]->(:PlaceObject)-[:IS_IN]->(p:Place) WHERE p.title={placeName} "
-                . "RETURN m"
-            );
-            $query->addEntityMapping('m', Marker::class);
-            $query->addEntityMapping('p', Place::class);
-            $query->setParameter('placeName', 'Кафедра ПОАС');
-
-            /** @var Marker[] $markers */
-            $markers = $query->execute();
-
-            $amountOfMarkers = count($markers);
-            for($i = 0; $i < $amountOfMarkers - 1; $i++)
-            {
-                $curMarker = $markers[$i];
-                $nextMarker = $markers[$i + 1];
-                $curMarker->setNext($nextMarker, rand(1, 360) . ' degrees');
-            }
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            return;
-        } finally {
-            $this->entityManager->flush();
-        }
+		// TODO: Add real marker relationships
+		// TODO: Marker without place object (PP_1)
+//        try {
+//            $query = $this->entityManager->createQuery(
+//                "MATCH (m:Marker)-[:ASSIGNED_TO]->(:PlaceObject)-[:IS_IN]->(p:Place) WHERE p.title={placeName} "
+//                . "RETURN m"
+//            );
+//            $query->addEntityMapping('m', Marker::class);
+//            $query->addEntityMapping('p', Place::class);
+//            $query->setParameter('placeName', 'Кафедра ПОАС');
+//
+//            /** @var Marker[] $markers */
+//            $markers = $query->execute();
+//
+//            $amountOfMarkers = count($markers);
+//            for($i = 0; $i < $amountOfMarkers - 1; $i++)
+//            {
+//                $curMarker = $markers[$i];
+//                $nextMarker = $markers[$i + 1];
+//                $curMarker->setNext($nextMarker, rand(1, 360) . ' degrees');
+//            }
+//        } catch (Exception $e) {
+//            echo $e->getMessage();
+//            return;
+//        } finally {
+//            $this->entityManager->flush();
+//        }
 	}
 
 	protected function clearDbCommand()
@@ -159,220 +161,183 @@ class Console
 		}
 	}
 
-	protected function getTestDbAsArray()
+	protected function getData()
 	{
-		// Places info
-		$places = [[
+		return [
+			$this->getPoasData(),
+			$this->getEvmData(),
+			$this->getSaprData(),
+		];
+	}
+
+	protected function getPoasData()
+	{
+		return [
+			'id' => 1,
+			'name' => 'Кафедра ПОАС',
+			'description' => 'Этаж кафедры ПОАС. Учебно-лабораторный корпус "В". 9 этаж.',
+			'image' => 'https://source.unsplash.com/random/400x400?sig=' . rand(1, 1000),
+			'placeObjects' => [[
 				'id' => 1,
-				'name' => 'Кафедра ПОАС',
-				'description' => 'Этаж кафедры ПОАС. Учебно-лабораторный корпус "В". 9 этаж.',
-				'image' => 'https://source.unsplash.com/random/400x400?sig=' . rand(1, 1000),
+				'title' => 'Ауд. 901',
+				'description' => 'room #901',
+				'type' => 'room',
+				'markers' => [[
+					'id' => 1,
+					'title' => 'm_901_1',
+				], [
+					'id' => 2,
+					'title' => 'm_901_2',
+				]],
 			], [
 				'id' => 2,
-				'name' => 'Кафедра ЭВМ',
-				'description' => 'Этаж кафедры ЭВМ. Учебно-лабораторный корпус "В". 12 этаж.',
-				'image' => 'https://source.unsplash.com/random/400x400?sig=' . rand(1, 1000),
+				'title' => 'Ауд. 902',
+				'description' => 'room #902',
+				'type' => 'room',
+				'markers' => [[
+					'id' => 3,
+					'title' => 'm_902_1',
+				], [
+					'id' => 4,
+					'title' => 'm_902_2',
+				], [
+					'id' => 5,
+					'title' => 'm_902_3',
+				]],
 			], [
 				'id' => 3,
-				'name' => 'Кафедра САПР',
-				'description' => 'Этаж кафедры САПРиПК. Учебно-лабораторный корпус "В". 14 этаж.',
-				'image' => 'https://source.unsplash.com/random/400x400?sig=' . rand(1, 1000),
-			],];
+				'title' => 'Ауд. 903',
+				'description' => 'room #903',
+				'type' => 'room',
+				'markers' => [[
+					'id' => 6,
+					'title' => 'm_903',
+				]],
+			], [
+				'id' => 4,
+				'title' => 'Ауд. 904',
+				'description' => 'room #904',
+				'type' => 'room',
+				'markers' => [[
+					'id' => 7,
+					'title' => 'm_904',
+				]],
+			], [
+				'id' => 5,
+				'title' => 'Ауд. 905',
+				'description' => 'room #905',
+				'type' => 'room',
+				'markers' => [[
+					'id' => 8,
+					'title' => 'm_905',
+				]],
+			], [
+				'id' => 6,
+				'title' => 'Ауд. 906',
+				'description' => 'room #906',
+				'type' => 'room',
+				'markers' => [[
+					'id' => 9,
+					'title' => 'm_906',
+				]],
+			], [
+				'id' => 7,
+				'title' => 'Ауд. 907',
+				'description' => 'room #907',
+				'type' => 'room',
+				'markers' => [[
+					'id' => 10,
+					'title' => 'm_907',
+				]],
+			], [
+				'id' => 8,
+				'title' => 'Ауд. 908',
+				'description' => 'room #908',
+				'type' => 'room',
+				'markers' => [[
+					'id' => 11,
+					'title' => 'm_908',
+				]],
+			], [
+				'id' => 9,
+				'title' => 'Мужской туалет',
+				'description' => 'Male WC',
+				'type' => 'wc',
+				'markers' => [[
+					'id' => 12,
+					'title' => 'm_m_WC',
+				]],
+			], [
+				'id' => 10,
+				'title' => 'Женский туалет',
+				'description' => 'Female WC',
+				'type' => 'wc',
+				'markers' => [[
+					'id' => 13,
+					'title' => 'm_w_WC',
+				]],
+			], [
+				'id' => 11,
+				'title' => 'Лифтовая',
+				'description' => 'Elevator room',
+				'type' => 'elevator',
+				'markers' => [[
+					'id' => 14,
+					'title' => 'm_Elevator',
+				]],
+			], [
+				'id' => 12,
+				'title' => 'Лестница',
+				'description' => 'Ladder',
+				'type' => 'ladder',
+				'markers' => [[
+					'id' => 15,
+					'title' => 'm_Ledder',
+				]],
+			]]
+		];
+	}
 
+	protected function getEvmData()
+	{
+		return [
+			'id' => 2,
+			'name' => 'Кафедра ЭВМ',
+			'description' => 'Этаж кафедры ЭВМ. Учебно-лабораторный корпус "В". 12 этаж.',
+			'image' => 'https://source.unsplash.com/random/400x400?sig=' . rand(1, 1000),
+			'placeObjects' => [[
+				'id' => 12,
+				'title' => 'Ауд. 1201',
+				'description' => 'room #1201',
+				'type' => 'room',
+			], [
+				'id' => 13,
+				'title' => 'Ауд. 1203',
+				'description' => 'room #1203',
+				'type' => 'room',
+			]],
+		];
+	}
 
-		// Fill poas places
-        $poasPlaceObjects = [
-            [
-                'id' => 1,
-                'title' => 'Ауд. 901',
-                'description' => 'room #901',
-                'type' => 'room',
-                'markers' => [
-                    [
-                        'id' => 1
-                    ]
-                ],
-            ],
-            [
-                'id' => 2,
-                'title' => 'Ауд. 902',
-                'description' => 'room #902',
-                'type' => 'room',
-                'markers' => [
-                    [
-                        'id' => 2
-                    ]
-                ],
-
-            ],
-            [
-                'id' => 3,
-                'title' => 'Ауд. 903',
-                'description' => 'room #903',
-                'type' => 'room',
-                'markers' => [
-                    [
-                        'id' => 3
-                    ]
-                ],
-
-            ],
-            [
-                'id' => 4,
-                'title' => 'Ауд. 904',
-                'description' => 'room #904',
-                'type' => 'room',
-                'markers' => [
-                    [
-                        'id' => 4
-                    ]
-                ],
-
-            ],
-            [
-                'id' => 5,
-                'title' => 'Ауд. 905',
-                'description' => 'room #905',
-                'type' => 'room',
-                'markers' => [
-                    [
-                        'id' => 5
-                    ]
-                ],
-
-            ],
-            [
-                'id' => 6,
-                'title' => 'Ауд. 906',
-                'description' => 'room #906',
-                'type' => 'room',
-                'markers' => [
-                    [
-                        'id' => 6
-                    ]
-                ],
-
-            ],
-            [
-                'id' => 7,
-                'title' => 'Ауд. 907',
-                'description' => 'room #907',
-                'type' => 'room',
-                'markers' => [
-                    [
-                        'id' => 7
-                    ]
-                ],
-
-            ],
-            [
-                'id' => 8,
-                'title' => 'Ауд. 908',
-                'description' => 'room #908',
-                'type' => 'room',
-                'markers' => [
-                    [
-                        'id' => 8
-                    ]
-                ],
-
-            ],
-            [
-                'id' => 9,
-                'title' => 'Мужской туалет',
-                'description' => 'Male WC',
-                'type' => 'wc',
-                'markers' => [
-                    [
-                        'id' => 9
-                    ]
-                ],
-
-            ],
-            [
-                'id' => 10,
-                'title' => 'Женский туалет',
-                'description' => 'Female WC',
-                'type' => 'wc',
-                'markers' => [
-                    [
-                        'id' => 10
-                    ]
-                ],
-
-            ],
-            [
-                'id' => 11,
-                'title' => 'Лифтовая',
-                'description' => 'Elevator room',
-                'type' => 'elevator',
-                'markers' => [
-                    [
-                        'id' => 11
-                    ]
-                ],
-
-            ],
-            [
-                'id' => 12,
-                'title' => 'Лестница',
-                'description' => 'Ladder',
-                'type' => 'ladder',
-                'markers' => [
-                    [
-                        'id' => 12
-                    ]
-                ],
-
-            ],
-        ];
-		$places[0]['placeObjects'] = $poasPlaceObjects;
-
-		// Fill evm places
-        $evmPlaceObjects = [[
-                'id' => 12,
-                'title' => '1201',
-                'description' => 'room #1201',
-                'type' => 'room',
-                'markers' => [[
-                    'id' => 12
-                ]],
-            ], [
-                'id' => 13,
-                'title' => '1203',
-                'description' => 'room #1203',
-                'type' => 'room',
-                'markers' => [[
-                    'id' => 13
-                ]],
-            ]
-        ];
-        $places[1]['placeObjects'] = $evmPlaceObjects;
-
-        // Fill sapr places
-        $saprPlaceObjects = [[
-                'id' => 14,
-                'title' => '1404',
-                'description' => 'room #1404',
-                'type' => 'room',
-                'markers' => [[
-                        'id' => 14
-                    ]
-                ],
-            ], [
-                'id' => 15,
-                'title' => '1406',
-                'description' => 'room #1406',
-                'type' => 'room',
-                'markers' => [[
-                        'id' => 15
-                    ]
-                ],
-            ]
-        ];
-        $places[2]['placeObjects'] = $saprPlaceObjects;
-
-		return $places;
+	protected function getSaprData()
+	{
+		return [
+			'id' => 3,
+			'name' => 'Кафедра САПР',
+			'description' => 'Этаж кафедры САПРиПК. Учебно-лабораторный корпус "В". 14 этаж.',
+			'image' => 'https://source.unsplash.com/random/400x400?sig=' . rand(1, 1000),
+			'placeObjects' => [[
+				'id' => 14,
+				'title' => 'Ауд. 1404',
+				'description' => 'room #1404',
+				'type' => 'room',
+			], [
+				'id' => 15,
+				'title' => 'Ауд. 1406',
+				'description' => 'room #1406',
+				'type' => 'room',
+			]],
+		];
 	}
 }
 
