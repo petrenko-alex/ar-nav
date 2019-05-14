@@ -185,9 +185,32 @@ class Console
 				'markers' => [[
 					'id' => 1,
 					'title' => 'm_901_1',
+                    'relationships' => [[
+                        'to' => 'm_Ladder',
+                        'directions' => '[270]'
+                    ], [
+                        'to' => 'm_908',
+                        'directions' => '[170]'
+                    ], [
+                        'to' => 'm_901_2',
+                        'directions' => '[90](along the wall)'
+                    ]]
 				], [
 					'id' => 2,
 					'title' => 'm_901_2',
+                    'relationships' => [[
+                        'to' => 'm_901_1',
+                        'directions' => '[270](along the wall)'
+                    ], [
+                        'to' => 'm_907',
+                        'directions' => '[190]'
+                    ], [
+                        'to' => 'm_906',
+                        'directions' => '[170]'
+                    ], [
+                        'to' => 'm_902_1',
+                        'directions' => '[90](along the wall)'
+                    ]]
 				]],
 			], [
 				'id' => 2,
@@ -197,12 +220,42 @@ class Console
 				'markers' => [[
 					'id' => 3,
 					'title' => 'm_902_1',
+                    'relationships' => [[
+                        'to' => 'm_901_2',
+                        'directions' => '[270](along the wall)'
+                    ], [
+                        'to' => 'm_902_2',
+                        'directions' => '[90](along the wall)'
+                    ], [
+                        'to' => 'm_w_WC',
+                        'directions' => '[190]'
+                    ]]
 				], [
 					'id' => 4,
 					'title' => 'm_902_2',
+                    'relationships' => [[
+                        'to' => 'm_902_1',
+                        'directions' => '[90](along the wall)'
+                    ], [
+                        'to' => 'm_902_3',
+                        'directions' => '[270](along the wall)'
+                    ], [
+                        'to' => 'm_Elevator',
+                        'directions' => '[180]'
+                    ]]
 				], [
 					'id' => 5,
 					'title' => 'm_902_3',
+                    'relationships' => [[
+                        'to' => 'm_902_2',
+                        'directions' => '[270](along the wall)'
+                    ], [
+                        'to' => 'm_903',
+                        'directions' => '[90](along the wall)'
+                    ], [
+                        'to' => 'm_m_WC',
+                        'directions' => '[170]'
+                    ]]
 				]],
 			], [
 				'id' => 3,
@@ -212,6 +265,13 @@ class Console
 				'markers' => [[
 					'id' => 6,
 					'title' => 'm_903',
+                    'relationships' => [[
+                        'to' => 'm_902_3',
+                        'directions' => '[270](along the wall)'
+                    ], [
+                        'to' => 'm_PP_1',
+                        'directions' => '[90]'
+                    ]]
 				]],
 			], [
 				'id' => 4,
@@ -221,6 +281,13 @@ class Console
 				'markers' => [[
 					'id' => 7,
 					'title' => 'm_904',
+                    'relationships' => [[
+                        'to' => 'm_905',
+                        'directions' => '[180]'
+                    ], [
+                        'to' => 'm_PP_1',
+                        'directions' => '[270]'
+                    ]]
 				]],
 			], [
 				'id' => 5,
@@ -230,6 +297,13 @@ class Console
 				'markers' => [[
 					'id' => 8,
 					'title' => 'm_905',
+                    'relationships' => [[
+                        'to' => 'm_904',
+                        'directions' => '[270]'
+                    ], [
+                        'to' => 'm_PP_1',
+                        'directions' => '[90]'
+                    ]]
 				]],
 			], [
 				'id' => 6,
@@ -239,6 +313,16 @@ class Console
 				'markers' => [[
 					'id' => 9,
 					'title' => 'm_906',
+                    'relationships' => [[
+                        'to' => 'm_w_WC',
+                        'directions' => '[270](along the wall)'
+                    ], [
+                        'to' => 'm_907',
+                        'directions' => '[90](along the wall)'
+                    ], [
+                        'to' => 'm_901_2',
+                        'directions' => '[170]'
+                    ]]
 				]],
 			], [
 				'id' => 7,
@@ -248,6 +332,16 @@ class Console
 				'markers' => [[
 					'id' => 10,
 					'title' => 'm_907',
+                    'relationships' => [[
+                        'to' => 'm_906',
+                        'directions' => '[270](along the wall)'
+                    ], [
+                        'to' => 'm_908',
+                        'directions' => '[90](along the wall)'
+                    ], [
+                        'to' => 'm_901_2',
+                        'directions' => '[190]'
+                    ]]
 				]],
 			], [
 				'id' => 8,
@@ -257,6 +351,16 @@ class Console
 				'markers' => [[
 					'id' => 11,
 					'title' => 'm_908',
+                    'relationships' => [[
+                        'to' => 'm_907',
+                        'directions' => '[270](along the wall)'
+                    ], [
+                        'to' => 'm_Ladder',
+                        'directions' => '[90]'
+                    ], [
+                        'to' => 'm_901_1',
+                        'directions' => '[170]'
+                    ]]
 				]],
 			], [
 				'id' => 9,
@@ -266,6 +370,10 @@ class Console
 				'markers' => [[
 					'id' => 12,
 					'title' => 'm_m_WC',
+                    'relationships' => [[
+                        'to' => 'm_902_3',
+                        'directions' => '[170]'
+                    ]]
 				]],
 			], [
 				'id' => 10,
@@ -275,6 +383,13 @@ class Console
 				'markers' => [[
 					'id' => 13,
 					'title' => 'm_w_WC',
+                    'relationships' => [[
+                        'to' => 'm_906',
+                        'directions' => '[90](along the wall)'
+                    ], [
+                        'to' => 'm_902_1',
+                        'directions' => '[190]'
+                    ]]
 				]],
 			], [
 				'id' => 11,
@@ -284,6 +399,10 @@ class Console
 				'markers' => [[
 					'id' => 14,
 					'title' => 'm_Elevator',
+                    'relationships' => [[
+                        'to' => 'm_902_2',
+                        'directions' => '[0](through the door)'
+                    ]]
 				]],
 			], [
 				'id' => 12,
@@ -292,7 +411,14 @@ class Console
 				'type' => 'ladder',
 				'markers' => [[
 					'id' => 15,
-					'title' => 'm_Ledder',
+					'title' => 'm_Ladder',
+                    'relationships' => [[
+                        'to' => 'm_901_1',
+                        'directions' => '[90]'
+                    ], [
+                        'to' => 'm_908',
+                        'directions' => '[210]'
+                    ]]
 				]],
 			]]
 		];
