@@ -116,36 +116,51 @@ class Console
 			}
 		}
 
-
-        // Add relationships between markers in POAS place
-        // TODO: Make it bidirectional
-		// TODO: Add real marker relationships
 		// TODO: Marker without place object (PP_1)
-//        try {
-//            $query = $this->entityManager->createQuery(
-//                "MATCH (m:Marker)-[:ASSIGNED_TO]->(:PlaceObject)-[:IS_IN]->(p:Place) WHERE p.title={placeName} "
-//                . "RETURN m"
-//            );
-//            $query->addEntityMapping('m', Marker::class);
-//            $query->addEntityMapping('p', Place::class);
-//            $query->setParameter('placeName', 'Кафедра ПОАС');
-//
-//            /** @var Marker[] $markers */
-//            $markers = $query->execute();
-//
-//            $amountOfMarkers = count($markers);
-//            for($i = 0; $i < $amountOfMarkers - 1; $i++)
-//            {
-//                $curMarker = $markers[$i];
-//                $nextMarker = $markers[$i + 1];
-//                $curMarker->setNext($nextMarker, rand(1, 360) . ' degrees');
-//            }
-//        } catch (Exception $e) {
-//            echo $e->getMessage();
-//            return;
-//        } finally {
-//            $this->entityManager->flush();
-//        }
+		// Create marker relationships
+        try {
+
+		    foreach ($dbArray as $place) {
+
+		        // Get all markers for current place
+                $query = $this->entityManager->createQuery(
+                    "MATCH (m:Marker)-[:ASSIGNED_TO]->(:PlaceObject)-[:IS_IN]->(p:Place) WHERE p.title={placeName} "
+                    . "RETURN m"
+                );
+                $query->addEntityMapping('m', Marker::class);
+                $query->addEntityMapping('p', Place::class);
+                $query->setParameter('placeName', $place['name']);
+
+                /** @var Marker[] $placeMarkers */
+                $placeMarkers = $query->execute();
+                $arPlaceMarkers = [];
+                foreach ($placeMarkers as $placeMarker) {
+					$arPlaceMarkers[$placeMarker->getTitle()] = $placeMarker;
+                }
+
+				// Create relationships
+		        foreach ($place['placeObjects'] as $placeObject) {
+					foreach($placeObject['markers'] as $marker) {
+						foreach($marker['relationships'] as $relationship) {
+							/* @var Marker $curMarker */
+							/* @var Marker $nextMarker */
+							$curMarker = $arPlaceMarkers[$marker['title']];
+                			$nextMarker = $arPlaceMarkers[$relationship['to']];
+							if ($curMarker && $nextMarker) {
+								$pathUnit = $curMarker->setNext($nextMarker, $relationship['directions']);
+								$this->entityManager->persist($pathUnit);
+								$this->entityManager->flush();
+							}
+                        }
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return;
+        } finally {
+            $this->entityManager->flush();
+        }
 	}
 
 	protected function clearDbCommand()
