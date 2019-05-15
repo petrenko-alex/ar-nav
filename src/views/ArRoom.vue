@@ -247,11 +247,7 @@
 
       async onInit(promise) {
         try {
-          console.log('before init qr');
-
           await promise;
-
-          console.log('after init qr');
         } catch (error) {
           alert(error);
           this.currentText = error.name;
