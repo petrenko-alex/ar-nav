@@ -59255,10 +59255,7 @@ ARjs.Source.prototype._initSourceWebcam = function (onReady, onError) {
     alert('Webcam Error\nName: ' + error.name + '\nMessage: ' + error.message)
   };
   
-  var domElement = document.createElement('video');
-  domElement.setAttribute('autoplay', '');
-  domElement.setAttribute('muted', '');
-  domElement.setAttribute('playsinline', '');
+  var domElement = document.getElementsByTagName('video')[0];
   domElement.setAttribute('id', 'ar-js-video');
   domElement.style.width = this.parameters.displayWidth + 'px'
   domElement.style.height = this.parameters.displayHeight + 'px'
