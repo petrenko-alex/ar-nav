@@ -120,17 +120,14 @@ class Marker
     /**
      * @param Marker $next
      * @param string $directions
-     * @return Marker
-     */
-    public function setNext(Marker $next, string $directions): Marker
+     * @return PathUnit created path
+	 */
+    public function setNext(Marker $next, string $directions): PathUnit
     {
-        $pathUnitDirect = new PathUnit($this, $next, $directions);
-        $this->next = $pathUnitDirect;
+        $pathUnit = new PathUnit($this, $next, $directions);
+        $this->next = $pathUnit;
 
-        $pathUnitReverse = new PathUnit($next, $this, 'reverse ' . $directions);
-        $next->prev = $pathUnitReverse;
-
-        return $this;
+        return $pathUnit;
     }
 
 	/**
