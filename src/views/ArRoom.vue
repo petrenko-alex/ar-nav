@@ -18,20 +18,19 @@
             <!--&gt;</a-entity>-->
 
             <a-marker-camera preset='hiro'></a-marker-camera>
-            <!--<div style="visibility: hidden">-->
-                <!--<qrcode-stream :track="false" @decode="onDecode" @init="onInit"/>-->
-            <!--</div>-->
         </a-scene>
+
+        <qrcode-stream :track="false" @decode="onDecode" @init="onInit"/>
 
         <StackDialog v-if="showWelcomeDialog" v-model="showWelcomeDialog"
                      :texts="welcomeDialogTexts" :title="welcomeDialogTitle"
                      v-on:dialog-read="welcomeDialogRead"
-        ></StackDialog>
+        />
 
         <SelectGoalDialog v-model="showSelectGoalDialog"
                           :goals="goals"
                           v-on:goal-selected="goalSelected"
-        ></SelectGoalDialog>
+        />
 
         <MarkerInfo v-model="showMarkerInfo"
                     :card-title="markerInfoTitle"
