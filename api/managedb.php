@@ -116,10 +116,8 @@ class Console
 			}
 		}
 
-		// TODO: Marker without place object (PP_1)
 		// Create marker relationships
         try {
-
 		    foreach ($dbArray as $place) {
 
 		        // Get all markers for current place
@@ -434,6 +432,25 @@ class Console
                         'to' => 'm_908',
                         'directions' => '[210]'
                     ]]
+				]],
+			], [
+				'id' => 13,
+				'title' => 'Wall',
+				'description' => 'service place object to assign path point markers',
+				'type' => 'service',
+				'markers' => [[
+					'id' => 16,
+					'title' => 'm_PP_1',
+					'relationships' => [[
+						'to' => 'm_903',
+						'directions' => '[200]'
+					], [
+						'to' => 'm_904',
+						'directions' => '[340]'
+					], [
+						'to' => 'm_905',
+						'directions' => '[20]'
+					]]
 				]],
 			]]
 		];
