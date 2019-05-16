@@ -142,6 +142,12 @@
             let marker = this.markers[markerId];
             if(marker.hasOwnProperty('placeObject')) {
               let markerPlaceObject = marker['placeObject'];
+
+              // PlaceObject типа service не является целью
+              if (markerPlaceObject.hasOwnProperty('type') && markerPlaceObject['type'] === 'service') {
+                continue;
+              }
+
               if (!this.goals.hasOwnProperty(markerPlaceObject['id'])) {
                 this.goals[markerPlaceObject['id']] = markerPlaceObject;
               }
