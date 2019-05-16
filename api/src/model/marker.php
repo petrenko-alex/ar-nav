@@ -27,6 +27,13 @@ class Marker
 	private $title;
 
 	/**
+	 * @var bool
+	 *
+	 * @OGM\Property(type="boolean")
+	 */
+	private $primary;
+
+	/**
 	 * @var PlaceObject
 	 *
 	 * @OGM\Relationship(
@@ -71,6 +78,7 @@ class Marker
 	{
 	    $this->title = $title;
 		$this->placeObject = $placeObject;
+		$this->primary = true;
 	}
 
 	/**
@@ -116,6 +124,24 @@ class Marker
         return $this->prev;
     }
 
+	/**
+	 * @return bool
+	 */
+	public function getPrimary(): bool
+	{
+		return $this->primary;
+	}
+
+	/**
+	 * @param bool $primary
+	 * @return Marker
+	 */
+	public function setPrimary(bool $primary): Marker
+	{
+		$this->primary = $primary;
+
+		return $this;
+	}
 
     /**
      * @param Marker $next
