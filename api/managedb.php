@@ -95,6 +95,9 @@ class Console
                     foreach ($placeObject['markers'] as $marker)
                     {
                         $markerObj = new Marker($marker['title'], $placeObjectObj);
+                        if ($marker['primary'] === false) {
+                        	$markerObj->setPrimary(false);
+						}
                         $this->entityManager->persist($markerObj);
 
                         $placeObjectMarkers[] = $markerObj;
@@ -198,6 +201,7 @@ class Console
 				'markers' => [[
 					'id' => 1,
 					'title' => 'm_901_1',
+					'primary' => false,
                     'relationships' => [[
                         'to' => 'm_Ladder',
                         'directions' => '[270]'
@@ -246,7 +250,8 @@ class Console
 				], [
 					'id' => 4,
 					'title' => 'm_902_2',
-                    'relationships' => [[
+					'primary' => false,
+					'relationships' => [[
                         'to' => 'm_902_1',
                         'directions' => '[90](along the wall)'
                     ], [
@@ -259,7 +264,8 @@ class Console
 				], [
 					'id' => 5,
 					'title' => 'm_902_3',
-                    'relationships' => [[
+					'primary' => false,
+					'relationships' => [[
                         'to' => 'm_902_2',
                         'directions' => '[270](along the wall)'
                     ], [
