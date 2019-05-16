@@ -119,7 +119,7 @@
       goalSelected(goalId) {
         let self = this;
         this.currentGoalId = goalId;
-        sessionStorage.setItem('activeGoalId', this.currentGoalId);
+        sessionStorage.setItem('activeGoalId', this.currentGoalId.toString());
 
         setTimeout(function () {
           self.showSelectGoalDialog = false;
