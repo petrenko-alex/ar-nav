@@ -33,13 +33,13 @@
         />
 
         <MarkerInfo v-model="showMarkerInfo"
-                    :card-title="markerInfoTitle"
+                    :card-title="currentPlaceObjectTitle"
         >
-            {{ markerInfoText }}
+            {{ currentPlaceObjectDescription }}
         </MarkerInfo>
 
         <div id="uiElements" v-show="marker.visible">
-            <v-btn id="placeObjectInfoBtn" fab color="primary">
+            <v-btn id="placeObjectInfoBtn" fab color="primary" @click="showMarkerInfo = true" v-show="currentPlaceObject">
                 <v-icon>$vuetify.icons.info</v-icon>
             </v-btn>
             <v-btn id="changeGoalBtn" fab color="primary">
@@ -73,7 +73,6 @@
         roomId: 0,
         currentText: 'Hello World',
 
-        markers: {},
         goals: {},
         currentGoalId: 0,
 
@@ -83,14 +82,43 @@
         welcomeDialogTitle: 'AR-Nav',
         welcomeDialogTexts: [],
 
-        // Marker info
+        markers: {},
+        // Current Marker info
         marker: {
           visible: false,
+          current: null,
         },
+
         markerInfoText: '',
         markerInfoTitle: '',
         showMarkerInfo: false,
       }
+    },
+    computed: {
+      currentPlaceObject() {
+        const currentMarker = this.marker.current;
+        if (currentMarker
+          && currentMarker['placeObject']
+          && currentMarker['placeObject']['type'] !== 'service'
+        ) {
+          return currentMarker['placeObject'];
+        }
+        return null;
+      },
+      currentPlaceObjectDescription() {
+        if (this.currentPlaceObject && this.currentPlaceObject.hasOwnProperty('description')) {
+          return this.currentPlaceObject['description'];
+        } else {
+          return '';
+        }
+      },
+      currentPlaceObjectTitle() {
+        if (this.currentPlaceObject && this.currentPlaceObject.hasOwnProperty('title')) {
+          return this.currentPlaceObject['title'];
+        } else {
+          return '';
+        }
+      },
     },
     created() {
       this.initAFrameComponents();
@@ -270,24 +298,13 @@
 
       onMarkerScanned(markerId) {
         if (this.markers.hasOwnProperty(markerId)) {
-          const marker = this.markers[markerId];
-          const placeObject = marker['placeObject'];
-          this.markerInfoText = placeObject['description'];
-          this.markerInfoTitle = placeObject['title'];
+          this.marker.current = this.markers[markerId];
         }
       },
 
       onDecode(result) {
-        // TODO: Remove 2 lines below
-        this.currentText = result;
-        console.log(result);
-        alert(result);
-
-        // const markerId = +result;
-        // if(this.goals.hasOwnProperty(markerId)) {
-        //   this.currentText = this.goals[markerId].title;
-        //   //this.show = true;
-        // }
+        console.log('QR scan result: ' + result);
+        this.onMarkerScanned(+result);
       },
 
       async onInit(promise) {
