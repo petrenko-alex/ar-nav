@@ -60,7 +60,7 @@ class GetPathToPlaceObject
 
 			// Build result array
 			$pathLength = count($path);
-			for($i = 0; $i < ($pathLength - 1); $i++) {
+			for ($i = 0; $i < ($pathLength - 1); $i++) {
 				/**
 				 * @var Node $firstMarker
 				 */
@@ -126,7 +126,7 @@ class GetPathToPlaceObject
 	 * @return Relationship|null
 	 * @throws Exception cypher query exception
 	 */
-	protected static function getMarkersRelationship(int $firstMarkerId, int $secondMarkerId) : ?Relationship
+	protected static function getMarkersRelationship(int $firstMarkerId, int $secondMarkerId): ?Relationship
 	{
 		$rel = null;
 		$query = static::$entityManager->createQuery(
