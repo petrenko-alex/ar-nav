@@ -37,6 +37,15 @@
         >
             {{ markerInfoText }}
         </MarkerInfo>
+
+        <div id="uiElements" v-show="marker.visible">
+            <v-btn id="placeObjectInfoBtn" fab color="primary">
+                <v-icon>$vuetify.icons.info</v-icon>
+            </v-btn>
+            <v-btn id="changeGoalBtn" fab color="primary">
+                <v-icon>$vuetify.icons.changeGoal</v-icon>
+            </v-btn>
+        </div>
     </v-content>
 </template>
 
@@ -327,6 +336,20 @@
 </script>
 
 <style>
+    #changeGoalBtn {
+        left: 180px;
+    }
+
+    #placeObjectInfoBtn {
+        left: 180px;
+    }
+
+    #uiElements {
+        z-index: 3;
+        position: absolute;
+        bottom: 80px;
+    }
+
     #toggleMarkerInfoBtn {
         z-index: 3;
         position: absolute;
