@@ -75,6 +75,9 @@
         welcomeDialogTexts: [],
 
         // Marker info
+        marker: {
+          visible: false,
+        },
         markerInfoText: '',
         markerInfoTitle: '',
         showMarkerInfo: false,
@@ -249,11 +252,11 @@
       },
 
       onMarkerFound(marker) {
-        console.log('Marker found from ar room');
+        this.marker.visible = true;
       },
 
       onMarkerLost(marker) {
-        console.log('Marke lost from ar room');
+        this.marker.visible = false;
       },
 
       onMarkerScanned(markerId) {
