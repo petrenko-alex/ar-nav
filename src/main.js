@@ -23,6 +23,8 @@ Vue.use(Vuetify, {
     'close': 'fas fa-times',
     'stack': 'fas fa-layer-group',
     'ok': 'fas fa-check',
+    'info': 'fas fa-info',
+    'changeGoal': 'fas fa-map-signs',
   },
 });
 Vue.config.ignoredElements = [
