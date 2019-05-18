@@ -4,7 +4,6 @@
         <v-btn id="toggleStartDialogBtn" round @click.stop="showWelcomeDialog = true">Show start dialog</v-btn>
         <v-btn id="toggleSelectGoalDialogBtn" round @click.stop="showSelectGoalDialog = true">Show goal dialog</v-btn>
 
-
         <a-scene embedded artoolkit="sourceType: webcam;" arjs="debugUIEnabled: false;">
             <!--<a-gltf-model src="/gltf/arrow/scene.gltf" position="1 0.5 0.5" rotation="0 90 90"></a-gltf-model>-->
             <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="0.8 0 -0.5"></a-text>
@@ -57,7 +56,10 @@
     },
     data() {
       return {
-        markersUrl: 'getplacemarkers.php',
+        apiUrl: {
+          markersUrl: 'getplacemarkers.php',
+          pathUrl: 'getpathtoplaceobject.php',
+        },
         roomId: 0,
         currentText: 'Hello World',
 
@@ -81,7 +83,7 @@
       this.roomId = this.$route.params['id'];
 
       this.$http.get(
-        this.$root.baseApiUrl + this.markersUrl,
+        this.$root.baseApiUrl + this.apiUrl.markersUrl,
         {params: {placeId: this.roomId, XDEBUG_SESSION_START:'PHPSTORM'}}
       )
         .then(
