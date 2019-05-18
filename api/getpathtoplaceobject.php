@@ -1,9 +1,11 @@
 <?php
 
+use GraphAware\Neo4j\Client\Formatter\Type\Relationship;
 use GraphAware\Neo4j\OGM\EntityManager;
 use Petrenko\ArNav\Model\Marker;
 use Petrenko\ArNav\Model\Place;
 use Petrenko\ArNav\Model\PlaceObject;
+use GraphAware\Neo4j\Client\Formatter\Type\Node;
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/api/bootstrap.php');
 
@@ -16,52 +18,167 @@ class GetPathToPlaceObject
 
 	public static function run(EntityManager $entityManager)
 	{
+		header('Access-Control-Allow-Origin: *');
+		$resultPath = array();
 		static::$entityManager = $entityManager;
 
+		// Get and validate input data
 		$placeId = $_GET['placeId'];
 		$startMarkerId = $_GET['startMarkerId'];
 		$targetPlaceObjectId = $_GET['targetPlaceObjectId'];
-
-		$place = static::getPlace($placeId);
-		if ($place) {
-			$targetPlaceObject = static::getPlaceObjectFromPlace($place, $targetPlaceObjectId);
-			if ($targetPlaceObject) {
-				$primaryMarker = static::getPrimaryMarkerForPlaceObject($targetPlaceObject);
-				if ($primaryMarker) {
-					echo '<pre>' . var_dump($primaryMarker->getTitle()) . '</pre>';
-					// Выполнить запрос на получение кратчайшего пути
-					try {
-						$query = static::$entityManager->createQuery(
-							"MATCH (start:Marker), (end:Marker) " .
-							"WHERE start.title={startMarker} AND end.title={endMarker} " .
-							"CALL algo.shortestPath.stream(start, end, null, {nodeQuery:'Marker', direction:'OUTGOING'}) " .
-							"YIELD nodeId, cost " .
-							"RETURN algo.asNode(nodeId), cost 	"
-						);
-						$query->addEntityMapping('start', Marker::class);
-						$query->addEntityMapping('end', Marker::class);
-						//$query->setParameter('startMarker', 'm_908');
-						$query->setParameter('endMarker', $primaryMarker->getTitle());
-						$result = $query->execute();
-
-					} catch (Exception $e) {
-						echo $e->getMessage();
-						return;
-					}
-					// TODO: get start marker title
-					// TODO: need flush in finally?
-
-				}
-			}
+		if (!$placeId || !$startMarkerId || !$targetPlaceObjectId) {
+			echo static::getError('Not enough data for request');
 		}
 
+		// Get start Marker
+		$startMarker = static::getMarker($startMarkerId);
+		if (!$startMarker) {
+			echo static::getError('Start Marker not found for id=' . $startMarkerId);
+		}
 
-		// Форматировать и вернуть результат
+		// Get Place
+		$place = static::getPlace($placeId);
+		if (!$place) {
+			echo static::getError('Place not found for id=' . $placeId);
+		}
 
-		$jsonResult = json_encode(array(), JSON_UNESCAPED_UNICODE);
+		// Find target PlaceObject
+		$targetPlaceObject = static::getPlaceObjectFromPlace($place, $targetPlaceObjectId);
+		if (!$targetPlaceObject) {
+			echo static::getError('PlaceObject not found for id=' . $targetPlaceObjectId);
+		}
 
-		header('Access-Control-Allow-Origin: *');
+		// Get primary Marker for PlaceObject
+		$primaryMarker = static::getPrimaryMarkerForPlaceObject($targetPlaceObject);
+		if (!$primaryMarker) {
+			echo static::getError('Primary Marker not found for PlaceObject with id=' . $targetPlaceObjectId);
+		}
+
+		// Get path
+		try {
+			$path = static::getPath($startMarker, $primaryMarker);
+
+			// Build result array
+			$pathLength = count($path);
+			for($i = 0; $i < ($pathLength - 1); $i++) {
+				/**
+				 * @var Node $firstMarker
+				 */
+				$firstMarker = $path[$i]['node'];
+				/**
+				 * @var Node $secondMarker
+				 */
+				$secondMarker = $path[$i + 1]['node'];
+
+				$rel = static::getMarkersRelationship($firstMarker->identity(), $secondMarker->identity());
+				if ($rel) {
+					$key = 'm_' . $firstMarker->identity();
+					$resultPath[$key] = static::getResultArrayItem($firstMarker, $secondMarker, $rel);
+					if ($i == 0) {
+						$resultPath[$key]['pathStart'] = true;
+					}
+				}
+			}
+			/**
+			 * @var Node $endPathPoint
+			 */
+			$endPathPoint = end($path)['node'];
+			$resultPath['m_' . $endPathPoint->identity()] = static::getResultArrayItem($endPathPoint, null, null);
+		} catch (Exception $e) {
+			echo static::getError('Error building path: ' . $e->getMessage());
+		}
+
+		$jsonResult = json_encode($resultPath, JSON_UNESCAPED_UNICODE);
+
 		echo $jsonResult;
+	}
+
+	protected static function getResultArrayItem(Node $firstMarker, ?Node $secondMarker, ?Relationship $relationship)
+	{
+		$resultArray = array(
+			'id' => $firstMarker->identity(),
+			'title' => $firstMarker->values()['title'],
+		);
+
+		if ($secondMarker && $relationship) {
+			$resultArray['next'] = array(
+				'node' => array(
+					'id' => $secondMarker->identity(),
+					'title' => $secondMarker->values()['title']
+				),
+				'path' => array(
+					'id' => $relationship->identity(),
+					'directions' => $relationship->values()['directions'],
+					'startId' => $relationship->startNodeIdentity(),
+					'endId' => $relationship->endNodeIdentity()
+				)
+			);
+		} else {
+			$resultArray['pathEnd'] = true;
+		}
+
+		return $resultArray;
+	}
+
+	/**
+	 * @param int $firstMarkerId
+	 * @param int $secondMarkerId
+	 * @return Relationship|null
+	 * @throws Exception cypher query exception
+	 */
+	protected static function getMarkersRelationship(int $firstMarkerId, int $secondMarkerId) : ?Relationship
+	{
+		$rel = null;
+		$query = static::$entityManager->createQuery(
+			"MATCH (first:Marker)-[rel:CONNECTED_WITH]->(second:Marker)" .
+			"WHERE ID(first)={firstMarkerId} AND ID(second)={secondMarkerId}" .
+			"RETURN rel"
+		);
+		$query->addEntityMapping('first', Marker::class);
+		$query->addEntityMapping('second', Marker::class);
+		$query->setParameter('firstMarkerId', $firstMarkerId);
+		$query->setParameter('secondMarkerId', $secondMarkerId);
+
+		$rel = $query->execute();
+		if ($rel) {
+			$rel = current($rel)['rel'];
+		}
+
+		return $rel;
+	}
+
+	/**
+	 * @param Marker $startMarker
+	 * @param Marker $endMarker
+	 * @return array|mixed
+	 * @throws Exception cypher query exception
+	 */
+	protected static function getPath(Marker $startMarker, Marker $endMarker)
+	{
+		$query = static::$entityManager->createQuery(
+			"MATCH (start:Marker), (end:Marker) " .
+			"WHERE start.title={startMarker} AND end.title={endMarker} " .
+			"CALL algo.shortestPath.stream(start, end, null, {nodeQuery:'Marker', direction:'OUTGOING'}) " .
+			"YIELD nodeId, cost " .
+			"RETURN algo.asNode(nodeId) as node, cost 	"
+		);
+		$query->addEntityMapping('start', Marker::class);
+		$query->addEntityMapping('end', Marker::class);
+		$query->setParameter('startMarker', $startMarker->getTitle());
+		$query->setParameter('endMarker', $endMarker->getTitle());
+		return $query->execute();
+	}
+
+	/**
+	 * @param $errorText
+	 * @return string json error
+	 */
+	protected static function getError($errorText)
+	{
+		return json_encode(array(
+			'result' => 'error',
+			'error' => $errorText
+		));
 	}
 
 	/**
@@ -72,6 +189,16 @@ class GetPathToPlaceObject
 	{
 		$placesRepo = static::$entityManager->getRepository(Place::class);
 		return $placesRepo->find($placeId);
+	}
+
+	/**
+	 * @param $markerId
+	 * @return null|object|Marker
+	 */
+	protected static function getMarker($markerId)
+	{
+		$markerRepo = static::$entityManager->getRepository(Marker::class);
+		return $markerRepo->find($markerId);
 	}
 
 	/**
