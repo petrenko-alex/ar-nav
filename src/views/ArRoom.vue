@@ -6,17 +6,18 @@
 
         <a-scene embedded artoolkit="sourceType: webcam;" arjs="debugUIEnabled: false;">
             <!--<a-gltf-model src="/gltf/arrow/scene.gltf" position="1 0.5 0.5" rotation="0 90 90"></a-gltf-model>-->
-            <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="0.8 0 -0.5"></a-text>
-
             <!--<a-entity geometry="primitive: plane"-->
-                      <!--scale="3 4 1"-->
-                      <!--position="0.8 1.5 0"-->
-                      <!--rotation="-90 0 0"-->
-                      <!--draw=" background: #ff9801;"-->
-                      <!--htmltexture="asset: #list"-->
+            <!--scale="3 4 1"-->
+            <!--position="0.8 1.5 0"-->
+            <!--rotation="-90 0 0"-->
+            <!--draw=" background: #ff9801;"-->
+            <!--htmltexture="asset: #list"-->
             <!--&gt;</a-entity>-->
 
-            <a-marker-camera preset='hiro'></a-marker-camera>
+            <a-marker preset='hiro' id='hiroMarker' registerevents>
+                <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="0.8 0 -0.5"></a-text>
+            </a-marker>
+            <a-entity camera></a-entity>
         </a-scene>
 
         <qrcode-stream :track="false" @decode="onDecode" @init="onInit"/>
@@ -80,13 +81,13 @@
       }
     },
     created() {
+      this.initAFrameComponents();
       this.roomId = this.$route.params['id'];
 
       this.$http.get(
         this.$root.baseApiUrl + this.apiUrl.markersUrl,
-        {params: {placeId: this.roomId, XDEBUG_SESSION_START:'PHPSTORM'}}
-      )
-        .then(
+        {params: {placeId: this.roomId}}
+      ).then(
           result => {
             if (result.ok) {
               this.markers = result.body;
@@ -111,6 +112,22 @@
         this.initStartDialog();
 
         this.rememberUser();
+      },
+
+      initAFrameComponents() {
+        /* globals AFRAME */
+        const self = this;
+        AFRAME.registerComponent('registerevents', {
+          init: function () {
+            const marker = this.el;
+            marker.addEventListener('markerFound', function() {
+              self.onMarkerFound(marker);
+            });
+            marker.addEventListener('markerLost', function() {
+              self.onMarkerLost(marker);
+            });
+          }
+        });
       },
 
       /**
@@ -229,6 +246,14 @@
       testScanMarker() {
         const markerIds = Object.keys(this.markers);
         return markerIds[Math.floor(Math.random() * markerIds.length)];
+      },
+
+      onMarkerFound(marker) {
+        console.log('Marker found from ar room');
+      },
+
+      onMarkerLost(marker) {
+        console.log('Marke lost from ar room');
       },
 
       onMarkerScanned(markerId) {
