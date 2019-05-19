@@ -76,22 +76,22 @@
         goals: {},
         currentGoalId: 0,
 
-        // Dialogs
-        showSelectGoalDialog: false,
-        showWelcomeDialog: false,
+        // Welcome dialog
         welcomeDialogTitle: 'AR-Nav',
         welcomeDialogTexts: [],
 
+        // Dialogs visibility
+        showMarkerInfo: false,
+        showSelectGoalDialog: false,
+        showWelcomeDialog: false,
+
+        // Markers
         markers: {},
         // Current Marker info
         marker: {
           visible: false,
           current: null,
         },
-
-        markerInfoText: '',
-        markerInfoTitle: '',
-        showMarkerInfo: false,
       }
     },
     computed: {
