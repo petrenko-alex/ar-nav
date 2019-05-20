@@ -130,18 +130,19 @@
         this.$root.baseApiUrl + this.apiUrl.markersUrl,
         {params: {placeId: this.roomId}}
       ).then(
-          result => {
-            if (result.ok) {
-              this.markers = result.body;
+        result => {
+          if (result.ok) {
+            this.markers = result.body;
 
-              this.init();
-            } else {
-              console.log('Error getting goals for place. Status text: ' + result.statusText);
-            }
-          },
-          error => {
-            console.log('Error getting goals for place. Status text: ' + error.statusText);
-          })
+            this.init();
+          } else {
+            console.log('Error getting goals for place. Status text: ' + result.statusText);
+          }
+        },
+        error => {
+          console.log('Error getting goals for place. Status text: ' + error.statusText);
+        }
+      );
     },
     methods: {
       init() {
@@ -173,6 +174,9 @@
       goalSelected(goalId) {
         let self = this;
         this.currentGoalId = goalId;
+
+        // Get path
+
 
         setTimeout(function () {
           self.showSelectGoalDialog = false;
