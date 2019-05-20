@@ -70,7 +70,9 @@
         currentText: 'Hello World',
 
         goals: {},
-        currentGoalId: 0,
+        goal: {
+          current: null,
+        },
 
         // Welcome dialog
         welcomeDialogTitle: 'AR-Nav',
@@ -126,6 +128,7 @@
       this.initAFrameComponents();
       this.roomId = this.$route.params['id'];
 
+      // Get markers
       this.$http.get(
         this.$root.baseApiUrl + this.apiUrl.markersUrl,
         {params: {placeId: this.roomId}}
@@ -173,10 +176,9 @@
        */
       goalSelected(goalId) {
         let self = this;
-        this.currentGoalId = goalId;
-
-        // Get path
-
+        if (this.goals.hasOwnProperty(goalId)) {
+          this.goal.current = this.goals[goalId];
+        }
 
         setTimeout(function () {
           self.showSelectGoalDialog = false;
@@ -288,7 +290,7 @@
 
           // Show select goal dialog
           // if goal is not selected yet
-          if (!this.currentGoalId) {
+          if (!this.goal.current) {
             this.showSelectGoalDialog = true;
           }
         }
