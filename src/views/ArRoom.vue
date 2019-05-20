@@ -279,15 +279,6 @@
         ];
       },
 
-
-
-
-      // TODO: Test method (delete later)
-      testScanMarker() {
-        const markerIds = Object.keys(this.markers);
-        return markerIds[Math.floor(Math.random() * markerIds.length)];
-      },
-
       onMarkerFound(marker) {
         this.marker.visible = true;
       },
