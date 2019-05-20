@@ -178,7 +178,10 @@
       goalSelected(goalId) {
         let self = this;
         this.currentGoalId = goalId;
-        sessionStorage.setItem('activeGoalId', this.currentGoalId.toString());
+        sessionStorage.setItem(
+          'room' + this.roomId +  '.activeGoalId',
+          this.currentGoalId.toString()
+        );
 
         setTimeout(function () {
           self.showSelectGoalDialog = false;
@@ -222,7 +225,9 @@
       initStartDialog() {
         const localStorageInit = localStorage.getItem('init') === 'true';
         const sessionStorageInit = sessionStorage.getItem('activeSession') === 'true';
-        const activeGoalId = sessionStorage.getItem('activeGoalId');
+        const activeGoalId = sessionStorage.getItem(
+          'room' + this.roomId + '.activeGoalId'
+        );
 
         if(!localStorageInit) {
           // First time ever user
