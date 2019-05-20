@@ -42,7 +42,7 @@
             <v-btn id="placeObjectInfoBtn" fab color="primary" @click="showMarkerInfo = true" v-show="currentPlaceObject">
                 <v-icon>$vuetify.icons.info</v-icon>
             </v-btn>
-            <v-btn id="changeGoalBtn" fab color="primary">
+            <v-btn id="changeGoalBtn" fab color="primary" v-show="currentPlaceObject">
                 <v-icon>$vuetify.icons.changeGoal</v-icon>
             </v-btn>
         </div>
