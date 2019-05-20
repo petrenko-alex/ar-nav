@@ -119,6 +119,12 @@
           return '';
         }
       },
+      arNavInit() {
+        return localStorage.getItem('ARNav.init') === 'true';
+      },
+      arNavSessionInit() {
+        return sessionStorage.getItem('ARNav.activeSession') === 'true';
+      },
     },
     created() {
       this.initAFrameComponents();
@@ -171,10 +177,6 @@
       goalSelected(goalId) {
         let self = this;
         this.currentGoalId = goalId;
-        sessionStorage.setItem(
-          'ARNav.room' + this.roomId +  '.activeGoalId',
-          this.currentGoalId.toString()
-        );
 
         setTimeout(function () {
           self.showSelectGoalDialog = false;
@@ -215,23 +217,14 @@
        * "Статус пользователя" - данные об использовании приложения
        */
       initStartDialog() {
-        const localStorageInit = localStorage.getItem('ARNav.init') === 'true';
-        const sessionStorageInit = sessionStorage.getItem('ARNav.activeSession') === 'true';
-        const activeGoalId = sessionStorage.getItem(
-          'ARNav.room' + this.roomId + '.activeGoalId'
-        );
-
-        if(!localStorageInit) {
+        if(!this.arNavInit) {
           // First time ever user
           this.welcomeDialogTexts = this.getDialogTextForFirstTimeEverUser();
           this.showWelcomeDialog = true;
-        } else if(localStorageInit && !sessionStorageInit) {
+        } else if(this.arNavInit && !this.arNavSessionInit) {
           // Returnee user (after closing app)
           this.welcomeDialogTexts = this.getDialogTextForReturnedUser();
           this.showWelcomeDialog = true;
-        } else if(localStorageInit && sessionStorageInit && !activeGoalId) {
-          // Returnee user (not set goal yet)
-          this.showSelectGoalDialog = true;
         }
       },
 
@@ -240,16 +233,21 @@
        * "Статус пользователя" - данные об использовании приложения
        */
       rememberUser() {
-        const localStorageInit = localStorage.getItem('ARNav.init') === 'true';
-        const sessionStorageInit = sessionStorage.getItem('ARNav.activeSession') === 'true';
-
-        if (!localStorageInit) {
-          localStorage.setItem('ARNav.init', 'true');
+        if (!this.arNavInit) {
+          this.initArNav();
         }
 
-        if (!sessionStorageInit) {
-          sessionStorage.setItem('ARNav.activeSession', 'true');
+        if (!this.arNavSessionInit) {
+          this.initArNavSession();
         }
+      },
+
+      initArNav() {
+        localStorage.setItem('ARNav.init', 'true');
+      },
+
+      initArNavSession() {
+        sessionStorage.setItem('ARNav.activeSession', 'true');
       },
 
       /**
