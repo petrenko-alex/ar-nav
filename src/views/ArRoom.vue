@@ -172,7 +172,7 @@
         let self = this;
         this.currentGoalId = goalId;
         sessionStorage.setItem(
-          'room' + this.roomId +  '.activeGoalId',
+          'ARNav.room' + this.roomId +  '.activeGoalId',
           this.currentGoalId.toString()
         );
 
@@ -215,10 +215,10 @@
        * "Статус пользователя" - данные об использовании приложения
        */
       initStartDialog() {
-        const localStorageInit = localStorage.getItem('init') === 'true';
-        const sessionStorageInit = sessionStorage.getItem('activeSession') === 'true';
+        const localStorageInit = localStorage.getItem('ARNav.init') === 'true';
+        const sessionStorageInit = sessionStorage.getItem('ARNav.activeSession') === 'true';
         const activeGoalId = sessionStorage.getItem(
-          'room' + this.roomId + '.activeGoalId'
+          'ARNav.room' + this.roomId + '.activeGoalId'
         );
 
         if(!localStorageInit) {
@@ -240,15 +240,15 @@
        * "Статус пользователя" - данные об использовании приложения
        */
       rememberUser() {
-        const localStorageInit = localStorage.getItem('init') === 'true';
-        const sessionStorageInit = sessionStorage.getItem('activeSession') === 'true';
+        const localStorageInit = localStorage.getItem('ARNav.init') === 'true';
+        const sessionStorageInit = sessionStorage.getItem('ARNav.activeSession') === 'true';
 
         if (!localStorageInit) {
-          localStorage.setItem('init', 'true');
+          localStorage.setItem('ARNav.init', 'true');
         }
 
         if (!sessionStorageInit) {
-          sessionStorage.setItem('activeSession', 'true');
+          sessionStorage.setItem('ARNav.activeSession', 'true');
         }
       },
 
