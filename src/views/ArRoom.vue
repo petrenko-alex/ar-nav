@@ -11,7 +11,7 @@
             <!--&gt;</a-entity>-->
 
             <a-marker preset='hiro' id='hiroMarker' registerevents>
-                <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="0.8 0 -0.5"></a-text>
+                <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="-1.2 0 0.5"></a-text>
             </a-marker>
             <a-entity camera></a-entity>
         </a-scene>
@@ -194,6 +194,7 @@
             result => {
               if (result.ok) {
                 this.goal.path = result.body;
+                this.showDirections();
               } else {
                 console.log('Error getting path for goal. Status text: ' + result.statusText);
               }
@@ -207,6 +208,58 @@
         setTimeout(function () {
           self.showSelectGoalDialog = false;
         }, 300);
+      },
+
+      goalReached() {
+        const msg = 'Congratulations! You\'ve reach the goal';
+        this.currentText = msg;
+        console.log(msg);
+      },
+
+      showDirections() {
+        if (!this.goal.current && !this.goal.path) {
+          return;
+        }
+
+        // Get current directions
+        const currentMarkerId = this.marker.current['id'];
+        const path = this.goal.path;
+
+        const currentPathNode = path['m_' + currentMarkerId]
+        if (currentPathNode) {
+          const next = currentPathNode['next'];
+          if(next) {
+            this.showDirectionsInfo(next.path.directions);
+          }
+
+          const pathEnd = currentPathNode['pathEnd'];
+          if (pathEnd) {
+            this.goalReached();
+          }
+        }
+      },
+
+      showDirectionsInfo(directionsInfo) {
+        this.currentText = directionsInfo;
+
+        var directionsRegex = /(\[\d+\])(\(.*\))?/;
+        var parseResult = directionsInfo.match(directionsRegex);
+
+        let degrees = parseResult[1];
+        if (degrees) {
+          degrees = degrees.replace('[', '');
+          degrees = degrees.replace(']', '');
+        }
+
+        let directionsText = parseResult[2];
+        if (directionsText) {
+          directionsText = directionsText.replace('(', '');
+          directionsText = directionsText.replace(')', '');
+        }
+
+        // Текст
+        // Стрелка
+        // Голос
       },
 
       /**
@@ -312,10 +365,11 @@
         if (this.markers.hasOwnProperty(markerId)) {
           this.marker.current = this.markers[markerId];
 
-          // Show select goal dialog
-          // if goal is not selected yet
-          if (!this.goal.current) {
+          if (!this.goal.current || !this.goal.path) {
+            // Show select goal dialog if goal is not selected yet
             this.showSelectGoalDialog = true;
+          } else {
+            this.showDirections();
           }
         }
       },
