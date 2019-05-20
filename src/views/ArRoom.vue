@@ -1,9 +1,5 @@
 <template>
     <v-content>
-        <v-btn id="toggleMarkerInfoBtn" round @click.stop="showMarkerInfo = true">Show marker info</v-btn>
-        <v-btn id="toggleStartDialogBtn" round @click.stop="showWelcomeDialog = true">Show start dialog</v-btn>
-        <v-btn id="toggleSelectGoalDialogBtn" round @click.stop="showSelectGoalDialog = true">Show goal dialog</v-btn>
-
         <a-scene embedded artoolkit="sourceType: webcam;" arjs="debugUIEnabled: false;">
             <!--<a-gltf-model src="/gltf/arrow/scene.gltf" position="1 0.5 0.5" rotation="0 90 90"></a-gltf-model>-->
             <!--<a-entity geometry="primitive: plane"-->
@@ -42,7 +38,7 @@
             <v-btn id="placeObjectInfoBtn" fab color="primary" @click="showMarkerInfo = true" v-show="currentPlaceObject">
                 <v-icon>$vuetify.icons.info</v-icon>
             </v-btn>
-            <v-btn id="changeGoalBtn" fab color="primary" v-show="currentPlaceObject">
+            <v-btn id="changeGoalBtn" fab color="primary" @click="showSelectGoalDialog = true" v-show="currentPlaceObject">
                 <v-icon>$vuetify.icons.changeGoal</v-icon>
             </v-btn>
         </div>
@@ -357,27 +353,6 @@
         z-index: 3;
         position: absolute;
         bottom: 80px;
-    }
-
-    #toggleMarkerInfoBtn {
-        z-index: 3;
-        position: absolute;
-        top: 10px;
-        left: 180px;
-    }
-
-    #toggleStartDialogBtn {
-        z-index: 3;
-        position: absolute;
-        top: 60px;
-        left: 180px;
-    }
-
-    #toggleSelectGoalDialogBtn {
-        z-index: 3;
-        position: absolute;
-        top: 110px;
-        left: 180px;
     }
 
     #ar-js-video {
