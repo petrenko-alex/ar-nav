@@ -132,11 +132,6 @@
             if (result.ok) {
               this.markers = result.body;
 
-              // Get random place object (imitate qr code decoded)
-              //const randomMarkerId = this.testScanMarker();
-              const randomMarkerId = 2;
-              this.onMarkerScanned(randomMarkerId);
-
               this.init();
             } else {
               console.log('Error getting goals for place. Status text: ' + result.statusText);
