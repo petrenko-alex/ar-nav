@@ -145,8 +145,6 @@
       init() {
         this.initGoals();
         this.initStartDialog();
-
-        this.rememberUser();
       },
 
       initAFrameComponents() {
@@ -187,8 +185,7 @@
        * Обработчик события "Приветственный диалог прочитан"
        */
       welcomeDialogRead() {
-        // Показать окно выбора цели
-        this.showSelectGoalDialog = true;
+        this.rememberUser();
       },
 
       /**
