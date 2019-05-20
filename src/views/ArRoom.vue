@@ -72,6 +72,7 @@
         goals: {},
         goal: {
           current: null,
+          path: null,
         },
 
         // Welcome dialog
@@ -178,6 +179,29 @@
         let self = this;
         if (this.goals.hasOwnProperty(goalId)) {
           this.goal.current = this.goals[goalId];
+
+          // Get path
+          this.$http.get(
+            this.$root.baseApiUrl + this.apiUrl.pathUrl,
+            {
+              params: {
+                placeId: this.roomId,
+                targetPlaceObjectId: this.goal.current['id'],
+                startMarkerId: this.marker.current['id']
+              }
+            }
+          ).then(
+            result => {
+              if (result.ok) {
+                this.goal.path = result.body;
+              } else {
+                console.log('Error getting path for goal. Status text: ' + result.statusText);
+              }
+            },
+            error => {
+              console.log('Error getting path for goal. Status text: ' + error.statusText);
+            }
+          );
         }
 
         setTimeout(function () {
