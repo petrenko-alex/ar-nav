@@ -285,6 +285,12 @@
       onMarkerScanned(markerId) {
         if (this.markers.hasOwnProperty(markerId)) {
           this.marker.current = this.markers[markerId];
+
+          // Show select goal dialog
+          // if goal is not selected yet
+          if (!this.currentGoalId) {
+            this.showSelectGoalDialog = true;
+          }
         }
       },
 
