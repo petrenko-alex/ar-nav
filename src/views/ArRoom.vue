@@ -1,5 +1,5 @@
 <template>
-    <v-content>
+    <v-content id="arRoomRoot">
         <a-scene embedded artoolkit="sourceType: webcam;" arjs="debugUIEnabled: false;">
             <!--<a-gltf-model src="/gltf/arrow/scene.gltf" position="1 0.5 0.5" rotation="0 90 90"></a-gltf-model>-->
             <!--<a-entity geometry="primitive: plane"-->
@@ -11,7 +11,7 @@
             <!--&gt;</a-entity>-->
 
             <a-marker preset='hiro' id='hiroMarker' registerevents>
-                <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="-1.2 0 0.5"></a-text>
+                <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="-1.2 0 0.5" scale="2 1 1"></a-text>
             </a-marker>
             <a-entity camera></a-entity>
         </a-scene>
@@ -426,17 +426,17 @@
 
 <style>
     #changeGoalBtn {
-        left: 180px;
+        left: 5px;
     }
 
     #placeObjectInfoBtn {
-        left: 180px;
+        left: 5px;
     }
 
     #uiElements {
         z-index: 3;
         position: absolute;
-        bottom: 80px;
+        bottom: 50px;
     }
 
     #ar-js-video {
