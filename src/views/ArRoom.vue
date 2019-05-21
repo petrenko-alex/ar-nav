@@ -94,6 +94,7 @@
               scale: '0.5 0.5 0.5',
               position: '0 0.5 0',
               rotation: '90 90 90',
+              initialDegrees: '90',
             },
             color: '#2196F3',
           },
@@ -272,6 +273,7 @@
         if (degrees) {
           degrees = degrees.replace('[', '');
           degrees = degrees.replace(']', '');
+          this.turnDirectionObjectByDegrees(degrees);
         }
 
         let directionsText = parseResult[2];
@@ -283,6 +285,13 @@
         // Текст
         // Стрелка
         // Голос
+      },
+
+      turnDirectionObjectByDegrees(degrees) {
+        let objectRotation = this.goal.directions.object.rotation;
+        objectRotation = objectRotation.split(' ');
+        objectRotation[0] = (this.goal.directions.object.initialDegrees - degrees);
+        this.goal.directions.object.rotation = objectRotation.join(' ');
       },
 
       /**
