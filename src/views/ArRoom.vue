@@ -407,39 +407,17 @@
         try {
           await promise;
         } catch (error) {
-          alert(error);
-          this.currentText = error.name;
-          this.show = true;
-
           if (error.name === 'NotAllowedError') {
-            this.currentText = 'ERROR: you need to grant camera access permisson';
-            this.show = true;
-
             console.log('ERROR: you need to grant camera access permisson');
           } else if (error.name === 'NotFoundError') {
-            this.currentText = 'ERROR: no camera on this device';
-            this.show = true;
-
             console.log('ERROR: no camera on this device');
           } else if (error.name === 'NotSupportedError') {
-            this.currentText = 'ERROR: secure context required (HTTPS, localhost)';
-            this.show = true;
-
             console.log('ERROR: secure context required (HTTPS, localhost)');
           } else if (error.name === 'NotReadableError') {
-            this.currentText = 'ERROR: is the camera already in use?';
-            this.show = true;
-
             console.log('ERROR: is the camera already in use?');
           } else if (error.name === 'OverconstrainedError') {
-            this.currentText = 'ERROR: installed cameras are not suitable';
-            this.show = true;
-
             console.log('ERROR: installed cameras are not suitable');
           } else if (error.name === 'StreamApiNotSupportedError') {
-            this.currentText = 'ERROR: Stream API is not supported in this browser';
-            this.show = true;
-
             console.log('ERROR: Stream API is not supported in this browser');
           }
         }
