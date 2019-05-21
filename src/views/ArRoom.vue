@@ -280,10 +280,9 @@
         if (directionsText) {
           directionsText = directionsText.replace('(', '');
           directionsText = directionsText.replace(')', '');
+          this.goal.directions.text.value = directionsText;
         }
 
-        // Текст
-        // Стрелка
         // Голос
       },
 
