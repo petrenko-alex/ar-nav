@@ -1,7 +1,6 @@
 <template>
     <v-content id="arRoomRoot">
         <a-scene embedded artoolkit="sourceType: webcam;" arjs="debugUIEnabled: false;">
-            <!--<a-gltf-model src="/gltf/arrow/scene.gltf" position="1 0.5 0.5" rotation="0 90 90"></a-gltf-model>-->
             <!--<a-entity geometry="primitive: plane"-->
             <!--scale="3 4 1"-->
             <!--position="0.8 1.5 0"-->
@@ -11,7 +10,18 @@
             <!--&gt;</a-entity>-->
 
             <a-marker preset='hiro' id='hiroMarker' registerevents>
-                <a-text :value="currentText" rotation="-90 0 0" color="#ff9800" position="-1.2 0 0.5" scale="2 1 1"></a-text>
+                <a-gltf-model :src="goal.directions.object.src"
+                              :color="goal.directions.color"
+                              :position="goal.directions.object.position"
+                              :rotation="goal.directions.object.rotation"
+                              :scale="goal.directions.object.scale"
+                ></a-gltf-model>
+                <a-text :value="currentText"
+                        :color="goal.directions.color"
+                        :rotation="goal.directions.text.rotation"
+                        :position="goal.directions.text.position"
+                        :scale="goal.directions.text.scale"
+                ></a-text>
             </a-marker>
             <a-entity camera></a-entity>
         </a-scene>
@@ -73,6 +83,20 @@
         goal: {
           current: null,
           path: null,
+          directions: {
+            text: {
+              scale: '2 0.7 0',
+              position: '-1.5 0 0.8',
+              rotation: '270 0 0',
+            },
+            object: {
+              src: '/gltf/arrow/scene.gltf',
+              scale: '0.5 0.5 0.5',
+              position: '1 0.5 0.5',
+              rotation: '90 90 90',
+            },
+            color: '#2196F3',
+          },
         },
 
         // Welcome dialog
