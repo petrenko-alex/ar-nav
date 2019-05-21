@@ -59172,7 +59172,8 @@ ARjs.Source.prototype.init = function (onReady, onError) {
   return this
   
   function onSourceReady() {
-    document.body.appendChild(_this.domElement);
+    var arRoomRoot = document.getElementById('arRoomRoot');
+    arRoomRoot.firstElementChild.appendChild(_this.domElement);
     
     _this.ready = true
     
@@ -59429,20 +59430,16 @@ ARjs.Source.prototype.onResizeElement = function () {
     // compute newWidth and set .width/.marginLeft
     var newWidth = sourceAspect * screenHeight
     this.domElement.style.width = newWidth + 'px'
-    this.domElement.style.marginLeft = -(newWidth - screenWidth) / 2 + 'px'
     
     // init style.height/.marginTop to normal value
     this.domElement.style.height = screenHeight + 'px'
-    this.domElement.style.marginTop = '0px'
   } else {
     // compute newHeight and set .height/.marginTop
     var newHeight = 1 / (sourceAspect / screenWidth)
     this.domElement.style.height = newHeight + 'px'
-    this.domElement.style.marginTop = -(newHeight - screenHeight) / 2 + 'px'
     
     // init style.width/.marginLeft to normal value
     this.domElement.style.width = screenWidth + 'px'
-    this.domElement.style.marginLeft = '0px'
   }
 }
 /*
@@ -62056,17 +62053,13 @@ AFRAME.registerSystem('arjs', {
       window.addEventListener('resize', onResize)
       
       function onResize() {
-        var arSource = _this._arSession.arSource
-        
-        // ugly kludge to get resize on aframe... not even sure it works
-        if (arProfile.contextParameters.trackingBackend !== 'tango') {
-          arSource.copyElementSizeTo(document.body)
-        }
+        var arSource = _this._arSession.arSource;
         
         // fixing a-frame css
-        var buttonElement = document.querySelector('.a-enter-vr')
+        var buttonElement = document.querySelector('.a-enter-vr');
         if (buttonElement) {
-          buttonElement.style.position = 'fixed'
+          buttonElement.style.position = 'fixed';
+          buttonElement.style.display = 'none';
         }
       }
       
