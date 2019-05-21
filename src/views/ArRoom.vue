@@ -21,6 +21,7 @@
                         :rotation="goal.directions.text.rotation"
                         :position="goal.directions.text.position"
                         :scale="goal.directions.text.scale"
+                        width="2"
                 ></a-text>
             </a-marker>
             <a-entity camera></a-entity>
