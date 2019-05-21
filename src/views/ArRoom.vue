@@ -92,7 +92,7 @@
             object: {
               src: '/gltf/arrow/scene.gltf',
               scale: '0.5 0.5 0.5',
-              position: '1 0.5 0.5',
+              position: '0 0.5 0',
               rotation: '90 90 90',
             },
             color: '#2196F3',
