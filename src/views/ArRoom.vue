@@ -16,7 +16,7 @@
                               :rotation="goal.directions.object.rotation"
                               :scale="goal.directions.object.scale"
                 ></a-gltf-model>
-                <a-text :value="currentText"
+                <a-text :value="goal.directions.text.value"
                         :color="goal.directions.color"
                         :rotation="goal.directions.text.rotation"
                         :position="goal.directions.text.position"
@@ -77,7 +77,6 @@
           pathUrl: 'getpathtoplaceobject.php',
         },
         roomId: 0,
-        currentText: 'Hello World',
 
         goals: {},
         goal: {
@@ -85,6 +84,7 @@
           path: null,
           directions: {
             text: {
+              value: '',
               scale: '2 0.7 0',
               position: '-1.5 0 0.8',
               rotation: '270 0 0',
@@ -236,7 +236,7 @@
 
       goalReached() {
         const msg = 'Congratulations! You\'ve reach the goal';
-        this.currentText = msg;
+        this.directions.text.value = msg;
         console.log(msg);
       },
 
@@ -264,8 +264,7 @@
       },
 
       showDirectionsInfo(directionsInfo) {
-        this.currentText = directionsInfo;
-
+        // Parse directions info
         var directionsRegex = /(\[\d+\])(\(.*\))?/;
         var parseResult = directionsInfo.match(directionsRegex);
 
