@@ -15,12 +15,14 @@
                               :position="goal.directions.object.position"
                               :rotation="directionsObjectRotation"
                               :scale="goal.directions.object.scale"
+                              v-if="goal.directions.object.rotateDegrees > 0"
                 ></a-gltf-model>
                 <a-text :value="goal.directions.text.value"
                         :color="goal.directions.color"
                         :rotation="goal.directions.text.rotation"
                         :position="goal.directions.text.position"
                         :scale="goal.directions.text.scale"
+                        v-if="goal.directions.text.value"
                         width="2"
                 ></a-text>
             </a-marker>
