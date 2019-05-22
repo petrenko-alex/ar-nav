@@ -49,6 +49,9 @@
             <v-btn id="placeObjectInfoBtn" fab color="primary" @click="showMarkerInfo = true" v-show="currentPlaceObject">
                 <v-icon>$vuetify.icons.info</v-icon>
             </v-btn>
+            <v-btn id="sayDirections" fab color="primary" @click="sayDirections" v-show="goal.directions.text.value">
+                <v-icon>$vuetify.icons.audio</v-icon>
+            </v-btn>
             <v-btn id="changeGoalBtn" fab color="primary" @click="showSelectGoalDialog = true" v-show="currentPlaceObject">
                 <v-icon>$vuetify.icons.changeGoal</v-icon>
             </v-btn>
@@ -99,6 +102,10 @@
             },
             color: '#2196F3',
           },
+        },
+
+        voice: {
+          utterance: null,
         },
 
         // Welcome dialog
@@ -152,6 +159,7 @@
       },
     },
     created() {
+      this.initVoiceApi();
       this.initAFrameComponents();
       this.roomId = this.$route.params['id'];
 
@@ -178,6 +186,11 @@
       init() {
         this.initGoals();
         this.initStartDialog();
+      },
+
+      initVoiceApi() {
+        this.voice.utterance = new window.SpeechSynthesisUtterance();
+        this.voice.utterance.lang = 'ru-RU';
       },
 
       initAFrameComponents() {
@@ -281,10 +294,14 @@
         if (directionsText) {
           directionsText = directionsText.replace('(', '');
           directionsText = directionsText.replace(')', '');
-          this.goal.directions.text.value = directionsText;
-        }
 
-        // Голос
+          this.goal.directions.text.value = directionsText;
+          this.sayDirections();
+        }
+      },
+
+      sayDirections() {
+        this.sayText(this.goal.directions.text.value);
       },
 
       turnDirectionObjectByDegrees(degrees) {
@@ -429,24 +446,45 @@
             console.log('ERROR: Stream API is not supported in this browser');
           }
         }
-      }
+      },
+
+      sayText(text) {
+        if (text) {
+          try {
+            this.voice.utterance.text = text;
+            window.speechSynthesis.speak(this.voice.utterance);
+          } catch (ex) {
+            console.log('speechSynthesis not available', ex);
+          }
+        }
+      },
     }
   }
 </script>
 
 <style>
+    #testVoice {
+        z-index: 3;
+    }
+
     #changeGoalBtn {
-        left: 5px;
+        position: absolute;
+        right: 5px;
     }
 
     #placeObjectInfoBtn {
         left: 5px;
     }
 
+    #sayDirections {
+        left: 5px;
+    }
+
     #uiElements {
+        width: 100%;
         z-index: 3;
         position: absolute;
-        bottom: 50px;
+        bottom: 75px;
     }
 
     #ar-js-video {
