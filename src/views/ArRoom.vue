@@ -13,7 +13,7 @@
                 <a-gltf-model :src="goal.directions.object.src"
                               :color="goal.directions.color"
                               :position="goal.directions.object.position"
-                              :rotation="goal.directions.object.rotation"
+                              :rotation="directionsObjectRotation"
                               :scale="goal.directions.object.scale"
                 ></a-gltf-model>
                 <a-text :value="goal.directions.text.value"
@@ -97,8 +97,8 @@
               src: '/gltf/arrow/scene.gltf',
               scale: '0.5 0.5 0.5',
               position: '0 0.5 0',
-              rotation: '90 90 90',
-              initialDegrees: '90',
+              initialRotation: '90 90 90',
+              rotateDegrees: 0,
             },
             color: '#2196F3',
           },
@@ -156,6 +156,12 @@
       },
       arNavSessionInit() {
         return sessionStorage.getItem('ARNav.activeSession') === 'true';
+      },
+      directionsObjectRotation() {
+        let initialRotation = this.goal.directions.object.initialRotation;
+        initialRotation = initialRotation.split(' ');
+        initialRotation[0] = (initialRotation[0] - this.goal.directions.object.rotateDegrees);
+        return initialRotation.join(' ');
       },
     },
     created() {
@@ -287,7 +293,8 @@
         if (degrees) {
           degrees = degrees.replace('[', '');
           degrees = degrees.replace(']', '');
-          this.turnDirectionObjectByDegrees(degrees);
+
+          this.goal.directions.object.rotateDegrees = degrees;
         }
 
         let directionsText = parseResult[2];
@@ -302,13 +309,6 @@
 
       sayDirections() {
         this.sayText(this.goal.directions.text.value);
-      },
-
-      turnDirectionObjectByDegrees(degrees) {
-        let objectRotation = this.goal.directions.object.rotation;
-        objectRotation = objectRotation.split(' ');
-        objectRotation[0] = (this.goal.directions.object.initialDegrees - degrees);
-        this.goal.directions.object.rotation = objectRotation.join(' ');
       },
 
       /**
