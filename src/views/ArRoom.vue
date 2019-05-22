@@ -113,6 +113,7 @@
         // Welcome dialog
         welcomeDialogTitle: 'AR-Nav',
         welcomeDialogTexts: [],
+        isWelcomeDialogRead: false,
 
         // Dialogs visibility
         showMarkerInfo: false,
@@ -164,6 +165,9 @@
         initialRotation = initialRotation.split(' ');
         initialRotation[0] = (initialRotation[0] - this.goal.directions.object.rotateDegrees);
         return initialRotation.join(' ');
+      },
+      isGoalSelected() {
+        return this.goal.current && this.goal.path;
       },
     },
     created() {
@@ -317,6 +321,12 @@
        * Обработчик события "Приветственный диалог прочитан"
        */
       welcomeDialogRead() {
+        this.isWelcomeDialogRead = true;
+        if (!this.isGoalSelected && this.marker.visible) {
+          // Show select goal dialog if goal is not selected yet
+          this.showSelectGoalDialog = true;
+        }
+
         this.rememberUser();
       },
 
@@ -355,6 +365,8 @@
           // Returnee user (after closing app)
           this.welcomeDialogTexts = this.getDialogTextForReturnedUser();
           this.showWelcomeDialog = true;
+        } else {
+          this.isWelcomeDialogRead = true;
         }
       },
 
@@ -416,7 +428,7 @@
         if (this.markers.hasOwnProperty(markerId)) {
           this.marker.current = this.markers[markerId];
 
-          if (!this.goal.current || !this.goal.path) {
+          if (this.isWelcomeDialogRead && !this.isGoalSelected) {
             // Show select goal dialog if goal is not selected yet
             this.showSelectGoalDialog = true;
           } else {
