@@ -25,6 +25,7 @@ Vue.use(Vuetify, {
     'ok': 'fas fa-check',
     'info': 'fas fa-info',
     'changeGoal': 'fas fa-map-signs',
+    'audio': 'fas fa-volume-up',
   },
 });
 Vue.config.ignoredElements = [
