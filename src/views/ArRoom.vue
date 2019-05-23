@@ -70,6 +70,7 @@
   import SelectGoalDialog from '../components/dialogs/SelectGoalDialog';
   import FuzzyLogic from 'es6-fuzz';
   import Triangle from 'es6-fuzz/lib/curve/triangle';
+  import Voca from 'voca';
 
   export default {
     name: "ArRoom",
@@ -314,8 +315,8 @@
 
         let degrees = parseResult[1];
         if (degrees) {
-          degrees = degrees.replace('[', '');
-          degrees = degrees.replace(']', '');
+          degrees = Voca.trimLeft(degrees, '[');
+          degrees = Voca.trimRight(degrees, ']');
 
           if (+degrees < 0) degrees = 0;
           if (+degrees > 360) degrees = 360;
@@ -324,16 +325,23 @@
           this.goal.directions.object.rotateDegrees = degrees;
 
           // Get directions text using FuzzyLogic
-          this.goal.directions.text.value = this.fuzzyLogic.defuzzify(degrees).defuzzified;
+          let fuzzyResult = this.fuzzyLogic.defuzzify(degrees);
+          if (fuzzyResult) {
+            this.goal.directions.text.value = Voca.capitalize(fuzzyResult.defuzzified);
+          }
         }
 
         // Add hint for directions text
         let directionsText = parseResult[2];
         if (directionsText) {
-          directionsText = directionsText.replace('(', '');
-          directionsText = directionsText.replace(')', '');
+          directionsText = Voca.trimLeft(directionsText, '(');
+          directionsText = Voca.trimRight(directionsText, ')');
+          directionsText = Voca.capitalize(directionsText);
 
-          this.goal.directions.text.value += '\n' + directionsText;
+          if (this.goal.directions.text.value) {
+            this.goal.directions.text.value += '.\n'
+          }
+          this.goal.directions.text.value += directionsText;
         }
 
         this.sayDirections();
