@@ -23,7 +23,9 @@
                         :position="goal.directions.text.position"
                         :scale="goal.directions.text.scale"
                         v-if="goal.directions.text.value"
+                        font="/aframe_font/arial.fnt"
                         width="2"
+                        wrap-count="25"
                 ></a-text>
             </a-marker>
             <a-entity camera></a-entity>
@@ -91,8 +93,8 @@
           directions: {
             text: {
               value: '',
-              scale: '2 0.7 0',
-              position: '-1.5 0 0.8',
+              scale: '1 1 0',
+              position: '-0.5 0 1',
               rotation: '270 0 0',
             },
             object: {
