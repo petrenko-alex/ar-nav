@@ -68,6 +68,8 @@
   import MarkerInfo from '../components/MarkerInfo';
   import StackDialog from '../components/dialogs/StackDialog';
   import SelectGoalDialog from '../components/dialogs/SelectGoalDialog';
+  import FuzzyLogic from 'es6-fuzz';
+  import Triangle from 'es6-fuzz/lib/curve/triangle';
 
   export default {
     name: "ArRoom",
@@ -111,6 +113,7 @@
         voice: {
           utterance: null,
         },
+        fuzzyLogic: null,
 
         // Welcome dialog
         welcomeDialogTitle: 'AR-Nav',
@@ -173,6 +176,7 @@
       },
     },
     created() {
+      this.initFuzzy();
       this.initVoiceApi();
       this.initAFrameComponents();
       this.roomId = this.$route.params['id'];
@@ -200,6 +204,17 @@
       init() {
         this.initGoals();
         this.initStartDialog();
+      },
+
+      initFuzzy() {
+        this.fuzzyLogic = new FuzzyLogic();
+        this.fuzzyLogic
+          .init('повернитесь немного правее', new Triangle(0, 22.5, 45))
+          .or('повернитесь направо', new Triangle(45, 90, 135))
+          .or('развернитесь направо', new Triangle(135, 157.5, 180))
+          .or('развернитесь налево', new Triangle(180, 202.5, 225))
+          .or('повернитесь налево', new Triangle(225, 270, 315))
+          .or('повернитесь немного левее', new Triangle(315, 337.5, 360));
       },
 
       initVoiceApi() {
@@ -294,25 +309,34 @@
 
       showDirectionsInfo(directionsInfo) {
         // Parse directions info
-        var directionsRegex = /(\[\d+\])(\(.*\))?/;
-        var parseResult = directionsInfo.match(directionsRegex);
+        const directionsRegex = /(\[\d+\])(\(.*\))?/;
+        const parseResult = directionsInfo.match(directionsRegex);
 
         let degrees = parseResult[1];
         if (degrees) {
           degrees = degrees.replace('[', '');
           degrees = degrees.replace(']', '');
 
+          if (+degrees < 0) degrees = 0;
+          if (+degrees > 360) degrees = 360;
+
+          // Set rotate degrees
           this.goal.directions.object.rotateDegrees = degrees;
+
+          // Get directions text using FuzzyLogic
+          this.goal.directions.text.value = this.fuzzyLogic.defuzzify(degrees).defuzzified;
         }
 
+        // Add hint for directions text
         let directionsText = parseResult[2];
         if (directionsText) {
           directionsText = directionsText.replace('(', '');
           directionsText = directionsText.replace(')', '');
 
-          this.goal.directions.text.value = directionsText;
-          this.sayDirections();
+          this.goal.directions.text.value += '\n' + directionsText;
         }
+
+        this.sayDirections();
       },
 
       sayDirections() {
