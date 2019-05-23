@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "aframe-htmltexture-component": "^0.2.1",
+    "es6-fuzz": "^3.0.5",
     "material-design-icons-iconfont": "^3.0.3",
     "register-service-worker": "^1.0.0",
     "roboto-fontface": "*",
+    "voca": "^1.4.0",
     "vue": "^2.5.17",
     "vue-qrcode-reader": "^2.0.0",
     "vue-resource": "^1.5.1",
