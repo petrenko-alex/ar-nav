@@ -299,6 +299,7 @@
       },
 
       goalReached() {
+        this.goal.directions.object.rotateDegrees = 0;
         this.goal.directions.text.value = this.goal.directions.text.goalReached;
         this.sayDirections();
 
