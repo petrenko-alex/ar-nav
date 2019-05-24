@@ -110,6 +110,7 @@
             text: {
               value: '',
               goalReached: 'Вы достигли цели!',
+              pathRebuild: 'Кажется, вы сбились с пути. Маршрут был перестроен.',
               scale: '1 1 0',
               position: '-0.5 0 1',
               rotation: '270 0 0',
@@ -315,8 +316,7 @@
         // Get current directions
         const currentMarkerId = this.marker.current['id'];
         const path = this.goal.path;
-
-        const currentPathNode = path['m_' + currentMarkerId]
+        const currentPathNode = path['m_' + currentMarkerId];
         if (currentPathNode) {
           const next = currentPathNode['next'];
           if(next) {
@@ -327,6 +327,10 @@
           if (pathEnd) {
             this.goalReached();
           }
+        } else {
+          // User scanned wrong marker. Need to rebuild path
+          this.showSnackbar(this.goal.directions.text.pathRebuild);
+          this.goalSelected(this.goal.current['id']);
         }
       },
 
