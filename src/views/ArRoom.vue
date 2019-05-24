@@ -58,8 +58,9 @@
             <v-btn id="sayDirections" fab color="primary" @click="sayDirections" v-show="goal.directions.text.value">
                 <v-icon>$vuetify.icons.audio</v-icon>
             </v-btn>
-            <v-btn id="changeGoalBtn" fab color="primary" @click="showSelectGoalDialog = true" v-show="currentPlaceObject">
-                <v-icon>$vuetify.icons.changeGoal</v-icon>
+            <v-btn id="changeGoalBtn" round color="primary" @click="showSelectGoalDialog = true" v-if="goal.current">
+                <v-icon left>$vuetify.icons.changeGoal</v-icon>
+                {{ this.goal.current.title }}
             </v-btn>
         </div>
         <v-snackbar v-model="snackbar.show"
@@ -559,6 +560,7 @@
     #changeGoalBtn {
         position: absolute;
         right: 5px;
+        bottom: 10px;
     }
 
     #placeObjectInfoBtn {
