@@ -353,6 +353,14 @@
         this.sayText(this.goal.directions.text.value);
       },
 
+      resetDirectionsData() {
+        this.goal.current = null;
+        this.goal.path = null;
+
+        this.goal.directions.text.value = '';
+        this.goal.directions.object.rotateDegrees = 0;
+      },
+
       /**
        * Обработчик события "Приветственный диалог прочитан"
        */
