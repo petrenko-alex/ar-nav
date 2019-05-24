@@ -264,6 +264,7 @@
        * @param {number} goalId id цели
        */
       goalSelected(goalId) {
+        this.resetDirectionsData();
         let self = this;
         if (this.goals.hasOwnProperty(goalId)) {
           this.goal.current = this.goals[goalId];
