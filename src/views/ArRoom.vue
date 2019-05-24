@@ -39,7 +39,9 @@
         />
 
         <SelectGoalDialog v-model="showSelectGoalDialog"
+                          v-if="showSelectGoalDialog"
                           :goals="goals"
+                          :current-goal="currentPlaceObject"
                           v-on:goal-selected="goalSelected"
         />
 

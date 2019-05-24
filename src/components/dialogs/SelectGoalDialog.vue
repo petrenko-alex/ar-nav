@@ -5,12 +5,15 @@
             <v-card-text >
                 <v-container text-xs-center>
                     <v-radio-group v-model="goalId">
-                        <v-radio v-for="goal in goals"
+                        <v-radio v-for="goal in goalsObj"
                                  :key="goal.id"
                                  :label="goal.title"
                                  :value="goal.id"
                                  color="primary"
-                        ></v-radio>
+                                 :disabled="goal.id === currentGoalObj.id"
+                                 :off-icon="goal.id === currentGoalObj.id ? $vuetify.icons.mapMarker : $vuetify.icons.radioOff"
+                        >
+                        </v-radio>
                     </v-radio-group>
                 </v-container>
             </v-card-text>
@@ -25,14 +28,32 @@
     props: [
       'value',
       'goals',
+      'currentGoal',
     ],
     data() {
       return {
         goalId: null,
+        goalsObj: null,
+        currentGoalObj: null,
       }
     },
     mounted() {
       this.goalId = null;
+      this.goalsObj = this.$props['goals'];
+      this.currentGoalObj = this.$props['currentGoal'];
+    },
+    beforeUpdate() {
+      const currentGoalId = this.currentGoalObj ? this.currentGoalObj['id'] : 0;
+
+      // Set disabled prop for goals
+      for (let goalId in this.goalsObj) {
+        if (this.goalsObj.hasOwnProperty(goalId)) {
+          this.goalsObj[goalId].disabled = false;
+          if (+goalId === +currentGoalId) {
+            this.goalsObj[goalId].disabled = true;
+          }
+        }
+      }
     },
     computed: {
       show: {
