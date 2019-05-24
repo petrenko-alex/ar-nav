@@ -24,9 +24,9 @@ Vue.use(Vuetify, {
     'stack': 'fas fa-layer-group',
     'ok': 'fas fa-check',
     'info': 'fas fa-info',
-    'changeGoal': 'fas fa-map-signs',
+    'changeGoal': 'fas fa-directions',
     'audio': 'fas fa-volume-up',
-    'mapMarker': 'fas fa-map-marker-alt'
+    'mapMarker': 'fas fa-street-view',
   },
 });
 Vue.config.ignoredElements = [
