@@ -62,6 +62,17 @@
                 <v-icon>$vuetify.icons.changeGoal</v-icon>
             </v-btn>
         </div>
+        <v-snackbar v-model="snackbar.show"
+                    :timeout="snackbar.timeout"
+                    color="grey lighten-2"
+                    class="black--text"
+                    top multi-line
+        >
+            {{ snackbar.text }}
+            <v-btn color="primary" @click="snackbar.show = false" flat>
+                <v-icon>$vuetify.icons.close</v-icon>
+            </v-btn>
+        </v-snackbar>
     </v-content>
 </template>
 
@@ -118,6 +129,11 @@
           utterance: null,
         },
         fuzzyLogic: null,
+        snackbar: {
+          show: false,
+          text: '',
+          timeout: 3000,
+        },
 
         // Welcome dialog
         welcomeDialogTitle: 'AR-Nav',
@@ -353,6 +369,11 @@
 
       sayDirections() {
         this.sayText(this.goal.directions.text.value);
+      },
+
+      showSnackbar(snackbarText) {
+        this.snackbar.text = snackbarText;
+        this.snackbar.show = true;
       },
 
       resetDirectionsData() {
