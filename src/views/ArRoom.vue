@@ -83,6 +83,7 @@
   import SelectGoalDialog from '../components/dialogs/SelectGoalDialog';
   import FuzzyLogic from 'es6-fuzz';
   import Triangle from 'es6-fuzz/lib/curve/triangle';
+  import Constant from 'es6-fuzz/lib/curve/constant';
   import Voca from 'voca';
 
   export default {
@@ -230,7 +231,8 @@
       initFuzzy() {
         this.fuzzyLogic = new FuzzyLogic();
         this.fuzzyLogic
-          .init('повернитесь немного правее', new Triangle(0, 22.5, 45))
+          .init('пройдите прямо', new Constant(0))
+          .or('повернитесь немного правее', new Triangle(0, 22.5, 45))
           .or('повернитесь направо', new Triangle(45, 90, 135))
           .or('развернитесь направо', new Triangle(135, 157.5, 180))
           .or('развернитесь налево', new Triangle(180, 202.5, 225))
