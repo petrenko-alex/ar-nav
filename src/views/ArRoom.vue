@@ -96,6 +96,7 @@
           directions: {
             text: {
               value: '',
+              goalReached: 'Вы достигли цели!',
               scale: '1 1 0',
               position: '-0.5 0 1',
               rotation: '270 0 0',
@@ -280,9 +281,10 @@
       },
 
       goalReached() {
-        const msg = 'Congratulations! You\'ve reach the goal';
-        this.directions.text.value = msg;
-        console.log(msg);
+        this.goal.directions.text.value = this.goal.directions.text.goalReached;
+        this.sayDirections();
+
+        // TODO: Show questionary
       },
 
       showDirections() {
