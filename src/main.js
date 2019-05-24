@@ -26,6 +26,7 @@ Vue.use(Vuetify, {
     'info': 'fas fa-info',
     'changeGoal': 'fas fa-map-signs',
     'audio': 'fas fa-volume-up',
+    'mapMarker': 'fas fa-map-marker-alt'
   },
 });
 Vue.config.ignoredElements = [
