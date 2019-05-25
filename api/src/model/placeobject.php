@@ -41,6 +41,14 @@ class PlaceObject
     private $type;
 
     /**
+     * @var int counter of successfully completed paths
+     *          to current PlaceObject
+     *
+     * @OGM\Property(type="int")
+     */
+    private $reachCounter;
+
+    /**
      * @var Marker[]|Collection
      *
      * @OGM\Relationship(
@@ -91,6 +99,7 @@ class PlaceObject
         $this->title = $title;
         $this->place = $place;
         $this->description = $description;
+        $this->reachCounter = 0;
     }
 
     /**
@@ -145,6 +154,34 @@ class PlaceObject
     public function getPollResults()
     {
         return $this->pollResults;
+    }
+
+    /**
+     * @return int
+     */
+    public function getReachCounter(): int
+    {
+        return $this->reachCounter;
+    }
+
+    /**
+     * @param int $reachCounter
+     *
+     * @return PlaceObject
+     */
+    public function setReachCounter(int $reachCounter): PlaceObject
+    {
+        $this->reachCounter = $reachCounter;
+
+        return $this;
+    }
+
+    /**
+     * Increments $reachCounter
+     */
+    public function incReachCounter()
+    {
+        $this->reachCounter++;
     }
 
     /**
