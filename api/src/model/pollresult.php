@@ -55,6 +55,13 @@ class PollResult
     private $preferredNavType;
 
     /**
+     * @var string json encoded additional data
+     *
+     * @OGM\Property(type="string")
+     */
+    private $additionalData;
+
+    /**
      * @var PlaceObject
      *
      * @OGM\Relationship(
@@ -90,6 +97,10 @@ class PollResult
 
         if ($data['preferredNavType']) {
             $this->setPreferredNavType($data['preferredNavType']);
+        }
+
+        if ($data['additionalData']) {
+            $this->setAdditionalData($data['additionalData']);
         }
 
         if ($data['placeObject']) {
@@ -256,16 +267,38 @@ class PollResult
     /**
      * @return array
      */
+    public function getAdditionalData(): array
+    {
+        return json_decode($this->additionalData);
+    }
+
+    /**
+     * @param array $additionalData
+     *
+     * @return PollResult
+     */
+    public function setAdditionalData(array $additionalData): PollResult
+    {
+        $this->additionalData = json_encode($additionalData);
+
+        return $this;
+    }
+
+
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return [
-            'id' => $this->id,
-            'sex' => $this->sex,
-            'age' => $this->age,
-            'personType' => $this->personType,
-            'rating' => $this->rating,
-            'preferredNavType' => $this->preferredNavType,
-            'placeObject' => $this->placeObject ? $this->placeObject->toArray() : null,
+            'id' => $this->getId(),
+            'sex' => $this->getSex(),
+            'age' => $this->getAge(),
+            'personType' => $this->getPersonType(),
+            'rating' => $this->getRating(),
+            'preferredNavType' => $this->getPreferredNavType(),
+            'additionalDate' => $this->getAdditionalData(),
+            'placeObject' => $this->getPlaceObject() ? $this->getPlaceObject()->toArray() : null,
         ];
     }
 }
