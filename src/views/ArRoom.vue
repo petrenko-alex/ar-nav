@@ -51,6 +51,12 @@
             {{ currentPlaceObjectDescription }}
         </MarkerInfo>
 
+        <PollDialog v-model="showPollDialog"
+                    v-if="showPollDialog"
+                    :goal-id="goal.current.id"
+                    v-on:poll-submit="pollSubmitted"
+        ></PollDialog>
+
         <div id="uiElements" v-show="marker.visible">
             <v-btn id="placeObjectInfoBtn" fab color="primary" @click="showMarkerInfo = true" v-show="currentPlaceObject">
                 <v-icon>$vuetify.icons.info</v-icon>
@@ -82,6 +88,7 @@
   import MarkerInfo from '../components/MarkerInfo';
   import StackDialog from '../components/dialogs/StackDialog';
   import SelectGoalDialog from '../components/dialogs/SelectGoalDialog';
+  import PollDialog from '../components/dialogs/PollDialog';
   import FuzzyLogic from 'es6-fuzz';
   import Triangle from 'es6-fuzz/lib/curve/triangle';
   import Constant from 'es6-fuzz/lib/curve/constant';
@@ -95,12 +102,14 @@
       MarkerInfo,
       StackDialog,
       SelectGoalDialog,
+      PollDialog,
     },
     data() {
       return {
         apiUrl: {
           markersUrl: 'getplacemarkers.php',
           pathUrl: 'getpathtoplaceobject.php',
+          pollSubmitUrl: 'analytics/submitpoll.php',
         },
         roomId: 0,
 
@@ -147,6 +156,7 @@
         showMarkerInfo: false,
         showSelectGoalDialog: false,
         showWelcomeDialog: false,
+        showPollDialog: false,
 
         // Markers
         markers: {},
@@ -187,6 +197,9 @@
       },
       arNavSessionInit() {
         return sessionStorage.getItem('ARNav.activeSession') === 'true';
+      },
+      arNavPollCompleted() {
+        return localStorage.getItem('ARNav.pollCompleted') === 'true';
       },
       directionsObjectRotation() {
         let initialRotation = this.goal.directions.object.initialRotation;
@@ -308,7 +321,31 @@
         this.goal.directions.text.value = this.goal.directions.text.goalReached;
         this.sayDirections();
 
-        // TODO: Show questionary
+        if (!this.arNavPollCompleted) {
+          let self = this;
+          setTimeout(function () {
+            self.showPollDialog = true;
+          }, 1500);
+        }
+      },
+
+      pollSubmitted(pollData) {
+        this.$http.post(
+          this.$root.baseApiUrl + this.apiUrl.pollSubmitUrl,
+          pollData
+        ).then(
+          result => {
+            if (result.ok) {
+              console.log('poll submitted successfully');
+              this.setArNavPollCompleted();
+            } else {
+              console.log('Error getting goals for place. Status text: ' + result.statusText);
+            }
+          },
+          error => {
+            console.log('Error getting goals for place. Status text: ' + error.statusText);
+          }
+        );
       },
 
       showDirections() {
@@ -466,6 +503,10 @@
 
       initArNavSession() {
         sessionStorage.setItem('ARNav.activeSession', 'true');
+      },
+
+      setArNavPollCompleted() {
+        localStorage.setItem('ARNav.pollCompleted', 'true');
       },
 
       /**
