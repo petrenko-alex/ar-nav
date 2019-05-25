@@ -103,6 +103,7 @@
           personType: this.getExportPersonType(),
           rating: this.form.rating,
           preferredNavType: this.form.preferredNavType,
+          additionalData: this.getAdditionalData(),
         };
 
         this.$emit('poll-submit', pollData);
@@ -120,6 +121,15 @@
             return 'parent';
           case 'Прохожий':
             return 'stranger';
+        }
+      },
+      getAdditionalData() {
+        return {
+          date: new Date().toLocaleDateString('ru-RU'),
+          userAgent: navigator.userAgent,
+          platform: navigator.platform,
+          language: navigator.language,
+          screen: screen.width + '*' + screen.height,
         }
       },
     },
