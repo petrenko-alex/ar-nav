@@ -327,6 +327,8 @@
           setTimeout(function () {
             self.showPollDialog = true;
           }, 1500);
+        } else {
+          this.showSnackbar('Давайте найдем что-нибудь еще?');
         }
 
         this.notifyGoalReached(this.goal.current.id);
@@ -345,7 +347,7 @@
             if (result.ok) {
               console.log('Poll submitted successfully');
               this.setArNavPollCompleted();
-              this.showSnackbar('Спасибо за уделенное время!');
+              this.showSnackbar('Спасибо за уделенное время! Давайте найдем что-нибудь еще?');
             } else {
               console.log('Error submitting poll. Status text: ' + result.statusText);
             }
