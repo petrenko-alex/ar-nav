@@ -345,6 +345,7 @@
             if (result.ok) {
               console.log('Poll submitted successfully');
               this.setArNavPollCompleted();
+              this.showSnackbar('Спасибо за уделенное время!');
             } else {
               console.log('Error submitting poll. Status text: ' + result.statusText);
             }
