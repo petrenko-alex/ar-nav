@@ -66,6 +66,19 @@ class PlaceObject
     private $place;
 
     /**
+     * @var PollResult[]|Collection
+     *
+     * @OGM\Relationship(
+     *     type="RELATED_TO",
+     *     direction="INCOMING",
+     *     collection=true,
+     *     mappedBy="placeObject",
+     *     targetEntity="PollResult"
+     * )
+     */
+    private $pollResults;
+
+    /**
      * PlaceObject constructor.
      * @param string $title
      * @param string $description
@@ -124,6 +137,14 @@ class PlaceObject
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|PollResult[]
+     */
+    public function getPollResults()
+    {
+        return $this->pollResults;
     }
 
     /**
