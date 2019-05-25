@@ -110,6 +110,7 @@
           markersUrl: 'getplacemarkers.php',
           pathUrl: 'getpathtoplaceobject.php',
           pollSubmitUrl: 'analytics/submitpoll.php',
+          goalReachedUrl: 'analytics/goalreached.php'
         },
         roomId: 0,
 
@@ -327,19 +328,43 @@
             self.showPollDialog = true;
           }, 1500);
         }
+
+        this.notifyGoalReached(this.goal.current.id);
       },
 
       pollSubmitted(pollData) {
+        this.notifyPollSubmitted(pollData);
+      },
+
+      notifyPollSubmitted(pollData) {
         this.$http.post(
           this.$root.baseApiUrl + this.apiUrl.pollSubmitUrl,
           pollData
         ).then(
           result => {
             if (result.ok) {
-              console.log('poll submitted successfully');
+              console.log('Poll submitted successfully');
               this.setArNavPollCompleted();
             } else {
-              console.log('Error getting goals for place. Status text: ' + result.statusText);
+              console.log('Error submitting poll. Status text: ' + result.statusText);
+            }
+          },
+          error => {
+            console.log('Error getting goals for place. Status text: ' + error.statusText);
+          }
+        );
+      },
+
+      notifyGoalReached(goalId) {
+        this.$http.get(
+          this.$root.baseApiUrl + this.apiUrl.goalReachedUrl,
+          {params: {goalId: goalId}}
+        ).then(
+          result => {
+            if (result.ok) {
+              console.log('Successfully notified about goal reach');
+            } else {
+              console.log('Error notifying about goal reach. Status text: ' + result.statusText);
             }
           },
           error => {
