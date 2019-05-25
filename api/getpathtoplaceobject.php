@@ -28,30 +28,35 @@ class GetPathToPlaceObject
 		$targetPlaceObjectId = $_GET['targetPlaceObjectId'];
 		if (!$placeId || !$startMarkerId || !$targetPlaceObjectId) {
 			echo static::getError('Not enough data for request');
+			return;
 		}
 
 		// Get start Marker
 		$startMarker = static::getMarker($startMarkerId);
 		if (!$startMarker) {
 			echo static::getError('Start Marker not found for id=' . $startMarkerId);
+			return;
 		}
 
 		// Get Place
 		$place = static::getPlace($placeId);
 		if (!$place) {
 			echo static::getError('Place not found for id=' . $placeId);
+			return;
 		}
 
 		// Find target PlaceObject
 		$targetPlaceObject = static::getPlaceObjectFromPlace($place, $targetPlaceObjectId);
 		if (!$targetPlaceObject) {
 			echo static::getError('PlaceObject not found for id=' . $targetPlaceObjectId);
+			return;
 		}
 
 		// Get primary Marker for PlaceObject
 		$primaryMarker = static::getPrimaryMarkerForPlaceObject($targetPlaceObject);
 		if (!$primaryMarker) {
 			echo static::getError('Primary Marker not found for PlaceObject with id=' . $targetPlaceObjectId);
+			return;
 		}
 
 		// Get path
@@ -86,6 +91,7 @@ class GetPathToPlaceObject
 			$resultPath['m_' . $endPathPoint->identity()] = static::getResultArrayItem($endPathPoint, null, null);
 		} catch (Exception $e) {
 			echo static::getError('Error building path: ' . $e->getMessage());
+			return;
 		}
 
 		$jsonResult = json_encode($resultPath, JSON_UNESCAPED_UNICODE);
