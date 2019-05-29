@@ -1,14 +1,6 @@
 <template>
     <v-content id="arRoomRoot">
         <a-scene embedded artoolkit="sourceType: webcam;" arjs="debugUIEnabled: false;">
-            <!--<a-entity geometry="primitive: plane"-->
-            <!--scale="3 4 1"-->
-            <!--position="0.8 1.5 0"-->
-            <!--rotation="-90 0 0"-->
-            <!--draw=" background: #ff9801;"-->
-            <!--htmltexture="asset: #list"-->
-            <!--&gt;</a-entity>-->
-
             <a-marker preset='hiro' id='hiroMarker' registerevents>
                 <a-gltf-model :src="goal.directions.object.src"
                               :color="goal.directions.color"
