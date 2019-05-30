@@ -116,7 +116,7 @@
               goalReached: 'Вы достигли цели!',
               pathRebuild: 'Кажется, вы сбились с пути. Маршрут был перестроен.',
               scale: '1 1 0',
-              position: '-0.5 0 0.6',
+              position: '-0.5 0 0.8',
               rotation: '270 0 0',
             },
             object: {
