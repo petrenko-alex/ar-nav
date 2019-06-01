@@ -10,8 +10,8 @@
                                  :label="goal.title"
                                  :value="goal.id"
                                  color="primary"
-                                 :disabled="goal.id === currentGoalObj.id"
-                                 :off-icon="goal.id === currentGoalObj.id ? $vuetify.icons.mapMarker : $vuetify.icons.radioOff"
+                                 :disabled="currentGoalObj && goal.id === currentGoalObj.id"
+                                 :off-icon="(currentGoalObj && goal.id === currentGoalObj.id) ? $vuetify.icons.mapMarker : $vuetify.icons.radioOff"
                         >
                         </v-radio>
                     </v-radio-group>
