@@ -210,14 +210,14 @@ class Console
                         'directions' => '[170]'
                     ], [
                         'to' => 'm_901_2',
-                        'directions' => '[90](along the wall)'
+                        'directions' => '[90](Пройдите вдоль стены)'
                     ]]
 				], [
 					'id' => 2,
 					'title' => 'm_901_2',
                     'relationships' => [[
                         'to' => 'm_901_1',
-                        'directions' => '[270](along the wall)'
+                        'directions' => '[270](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_907',
                         'directions' => '[190]'
@@ -226,7 +226,7 @@ class Console
                         'directions' => '[170]'
                     ], [
                         'to' => 'm_902_1',
-                        'directions' => '[90](along the wall)'
+                        'directions' => '[90](Пройдите вдоль стены)'
                     ]]
 				]],
 			], [
@@ -239,10 +239,10 @@ class Console
 					'title' => 'm_902_1',
                     'relationships' => [[
                         'to' => 'm_901_2',
-                        'directions' => '[270](along the wall)'
+                        'directions' => '[270](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_902_2',
-                        'directions' => '[90](along the wall)'
+                        'directions' => '[90](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_w_WC',
                         'directions' => '[190]'
@@ -253,10 +253,10 @@ class Console
 					'primary' => false,
 					'relationships' => [[
                         'to' => 'm_902_1',
-                        'directions' => '[90](along the wall)'
+                        'directions' => '[270](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_902_3',
-                        'directions' => '[270](along the wall)'
+                        'directions' => '[90](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_Elevator',
                         'directions' => '[180]'
@@ -267,10 +267,10 @@ class Console
 					'primary' => false,
 					'relationships' => [[
                         'to' => 'm_902_2',
-                        'directions' => '[270](along the wall)'
+                        'directions' => '[270](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_903',
-                        'directions' => '[90](along the wall)'
+                        'directions' => '[90](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_m_WC',
                         'directions' => '[170]'
@@ -286,10 +286,10 @@ class Console
 					'title' => 'm_903',
                     'relationships' => [[
                         'to' => 'm_902_3',
-                        'directions' => '[270](along the wall)'
+                        'directions' => '[270](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_PP_1',
-                        'directions' => '[90]'
+                        'directions' => '[100]'
                     ]]
 				]],
 			], [
@@ -305,7 +305,7 @@ class Console
                         'directions' => '[180]'
                     ], [
                         'to' => 'm_PP_1',
-                        'directions' => '[270]'
+                        'directions' => '[260]'
                     ]]
 				]],
 			], [
@@ -318,7 +318,7 @@ class Console
 					'title' => 'm_905',
                     'relationships' => [[
                         'to' => 'm_904',
-                        'directions' => '[270]'
+                        'directions' => '[180]'
                     ], [
                         'to' => 'm_PP_1',
                         'directions' => '[90]'
@@ -334,10 +334,10 @@ class Console
 					'title' => 'm_906',
                     'relationships' => [[
                         'to' => 'm_w_WC',
-                        'directions' => '[270](along the wall)'
+                        'directions' => '[270](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_907',
-                        'directions' => '[90](along the wall)'
+                        'directions' => '[90](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_901_2',
                         'directions' => '[170]'
@@ -353,10 +353,10 @@ class Console
 					'title' => 'm_907',
                     'relationships' => [[
                         'to' => 'm_906',
-                        'directions' => '[270](along the wall)'
+                        'directions' => '[270](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_908',
-                        'directions' => '[90](along the wall)'
+                        'directions' => '[90](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_901_2',
                         'directions' => '[190]'
@@ -372,10 +372,10 @@ class Console
 					'title' => 'm_908',
                     'relationships' => [[
                         'to' => 'm_907',
-                        'directions' => '[270](along the wall)'
+                        'directions' => '[270](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_Ladder',
-                        'directions' => '[90]'
+                        'directions' => '[100]'
                     ], [
                         'to' => 'm_901_1',
                         'directions' => '[170]'
@@ -404,7 +404,7 @@ class Console
 					'title' => 'm_w_WC',
                     'relationships' => [[
                         'to' => 'm_906',
-                        'directions' => '[90](along the wall)'
+                        'directions' => '[90](Пройдите вдоль стены)'
                     ], [
                         'to' => 'm_902_1',
                         'directions' => '[190]'
@@ -420,7 +420,7 @@ class Console
 					'title' => 'm_Elevator',
                     'relationships' => [[
                         'to' => 'm_902_2',
-                        'directions' => '[0](through the door)'
+                        'directions' => '[0](Через дверь)'
                     ]]
 				]],
 			], [
@@ -433,7 +433,7 @@ class Console
 					'title' => 'm_Ladder',
                     'relationships' => [[
                         'to' => 'm_901_1',
-                        'directions' => '[90]'
+                        'directions' => '[120]'
                     ], [
                         'to' => 'm_908',
                         'directions' => '[210]'
@@ -449,13 +449,13 @@ class Console
 					'title' => 'm_PP_1',
 					'relationships' => [[
 						'to' => 'm_903',
-						'directions' => '[200]'
+						'directions' => '[140]'
 					], [
 						'to' => 'm_904',
-						'directions' => '[340]'
+						'directions' => '[220]'
 					], [
 						'to' => 'm_905',
-						'directions' => '[20]'
+						'directions' => '[330]'
 					]]
 				]],
 			]]
