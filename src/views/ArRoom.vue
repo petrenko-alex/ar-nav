@@ -241,8 +241,7 @@
           .init('пройдите прямо', new Constant(0))
           .or('повернитесь немного правее', new Triangle(0, 22.5, 45))
           .or('повернитесь направо', new Triangle(45, 90, 135))
-          .or('развернитесь направо', new Triangle(135, 157.5, 180))
-          .or('развернитесь налево', new Triangle(180, 202.5, 225))
+          .or('развернитесь', new Triangle(135, 180, 225))
           .or('повернитесь налево', new Triangle(225, 270, 315))
           .or('повернитесь немного левее', new Triangle(315, 337.5, 360));
       },
@@ -411,7 +410,9 @@
           this.goal.directions.object.rotateDegrees = degrees;
 
           // Get directions text using FuzzyLogic
+          console.log(degrees);
           let fuzzyResult = this.fuzzyLogic.defuzzify(degrees);
+          console.log(fuzzyResult);
           if (fuzzyResult) {
             this.goal.directions.text.value = Voca.capitalize(fuzzyResult.defuzzified);
           }
