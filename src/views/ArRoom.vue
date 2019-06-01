@@ -7,7 +7,7 @@
                               :position="goal.directions.object.position"
                               :rotation="directionsObjectRotation"
                               :scale="goal.directions.object.scale"
-                              v-if="goal.directions.object.rotateDegrees > 0"
+                              v-if="goal.directions.object.rotateDegrees !== null"
                 ></a-gltf-model>
                 <a-text :value="goal.directions.text.value"
                         :color="goal.directions.color"
@@ -124,7 +124,7 @@
               scale: '0.5 0.5 0.5',
               position: '0 0.5 0',
               initialRotation: '90 90 90',
-              rotateDegrees: 0,
+              rotateDegrees: null,
             },
             color: '#2196F3',
           },
@@ -196,9 +196,13 @@
       },
       directionsObjectRotation() {
         let initialRotation = this.goal.directions.object.initialRotation;
-        initialRotation = initialRotation.split(' ');
-        initialRotation[0] = (initialRotation[0] - this.goal.directions.object.rotateDegrees);
-        return initialRotation.join(' ');
+        if (this.goal.directions.object.rotateDegrees !== null) {
+          initialRotation = initialRotation.split(' ');
+          initialRotation[0] = (initialRotation[0] - this.goal.directions.object.rotateDegrees);
+          return initialRotation.join(' ');
+        } else {
+          return initialRotation;
+        }
       },
       isGoalSelected() {
         return this.goal.current && this.goal.path;
@@ -309,7 +313,7 @@
       },
 
       goalReached() {
-        this.goal.directions.object.rotateDegrees = 0;
+        this.goal.directions.object.rotateDegrees = null;
         this.goal.directions.text.value = this.goal.directions.text.goalReached;
         this.sayDirections();
 
@@ -448,7 +452,7 @@
         this.goal.path = null;
 
         this.goal.directions.text.value = '';
-        this.goal.directions.object.rotateDegrees = 0;
+        this.goal.directions.object.rotateDegrees = null;
       },
 
       /**
