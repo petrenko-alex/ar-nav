@@ -414,9 +414,7 @@
           this.goal.directions.object.rotateDegrees = degrees;
 
           // Get directions text using FuzzyLogic
-          console.log(degrees);
           let fuzzyResult = this.fuzzyLogic.defuzzify(degrees);
-          console.log(fuzzyResult);
           if (fuzzyResult) {
             this.goal.directions.text.value = Voca.capitalize(fuzzyResult.defuzzified);
           }
