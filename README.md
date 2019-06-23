@@ -33,17 +33,16 @@ AR-Nav - приложение для навигации в помещении с
 ![Выбор точки назначения](https://raw.githubusercontent.com/gafk/ar-nav/master/wiki/choose_destination.PNG) | ![Указание действий](https://raw.githubusercontent.com/gafk/ar-nav/master/wiki/directions_1.PNG) | ![Информация об объекте навигации](https://raw.githubusercontent.com/gafk/ar-nav/master/wiki/nav_object_info.PNG) | ![Анкета](https://raw.githubusercontent.com/gafk/ar-nav/master/wiki/analytics_1.PNG)
 
 ### Что используем 
-[Vue.js](https://github.com/vuejs/vue)
-[Vuetify](https://github.com/vuetifyjs/vuetify)
-[AR.js](https://github.com/jeromeetienne/AR.js)
-[vue-qrcode-reader](https://github.com/gruhn/vue-qrcode-reader)
-[es6-fuzz](https://github.com/sebs/es6-fuzz)
-[neo4j](https://github.com/neo4j/neo4j)
+[Vue.js](https://github.com/vuejs/vue)  
+[Vuetify](https://github.com/vuetifyjs/vuetify)  
+[AR.js](https://github.com/jeromeetienne/AR.js)  
+[vue-qrcode-reader](https://github.com/gruhn/vue-qrcode-reader)  
+[es6-fuzz](https://github.com/sebs/es6-fuzz)  
+[neo4j](https://github.com/neo4j/neo4j)  
+и др.  
 
 ### Видео-демо
 [![Video demo](https://img.youtube.com/vi/vVT1VbEgDjA/0.jpg)](https://www.youtube.com/watch?v=vVT1VbEgDjA)
-
-Сценарий
 
 ### Хотите узнать больше?
 Свяжитесь со мной: gafk555@gmail.com
