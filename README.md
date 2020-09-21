@@ -44,5 +44,8 @@ AR-Nav - приложение для навигации в помещении с
 ### Видео-демо
 [![Video demo](https://img.youtube.com/vi/vVT1VbEgDjA/0.jpg)](https://www.youtube.com/watch?v=vVT1VbEgDjA)
 
+### Лицензия
+Copyright © 2018, [Petrenko Alexander](https://github.com/petrenko-alex)
+
 ### Хотите узнать больше?
 Свяжитесь со мной: gafk555@gmail.com
